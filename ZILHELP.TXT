@@ -1,0 +1,189 @@
+.topic hcFile = 1034
+ File Menu ‹
+  ‹‹‹‹‹‹‹‹‹€
+  
+The File menu contains menu items which allow you to load, save and print
+files, shell out to DOS, change the current directory or leave the program.
+
+Menu items
+
+ {Load:hcLoad}          {Save As:hcSaveAs}      {Print:hcPrint}
+ {Change Dir:hcChangeDir}    {Dos Shell:hcDosShell}    {Exit:hcExit}
+ 
+.topic hcLoad = 1000
+ File|Load ‹
+  ‹‹‹‹‹‹‹‹‹€
+  
+This dialogue box allows you to specify a {Z80 file:hcZ80file} to load into
+the {Z80's memory:hcZ80memory}, and also an address to load the file at.
+
+If the file is cannot fit in memory then ZiLEM will stop loading the file
+when it gets to address $FFFF (65535).
+
+.topic hcPrint = 1001
+ File|Print ‹
+  ‹‹‹‹‹‹‹‹‹‹€
+
+From this dialogue box you can print a section of Z80 memory in a variety of
+formats. The addresses specified are inclusive, and therefore the bytes
+at these addresses will actually be printed.
+
+ASCII Format
+
+If this format is selected then the memory is printed out as ASCII characters.
+You can choose whether characters in the range $00-$1F are printed out from
+the {Options|Preferences:hcPreferences} menu. If you choose not to have them
+printed then a full stop will be printed instead.
+
+Hex Format
+
+In this format then memory is printed out exactly as it is shown in the the
+{Z80 Memory Window:hcHexWindow}, except that the Print #00-#1F option affects
+whether characters in that range are printed instead of the Display
+#00-#1F option.
+
+Code Format
+
+This format prints memory in the same format as it is shown in the
+{Code Window:hcCodeWindow}. The Upper case opcodes option will determine
+whether the code is in upper or lower case.
+
+.topic hcQuit = 1043
+ File|Quit ‹
+  ‹‹‹‹‹‹‹‹‹€
+
+Choosing this option will quit ZiLEM. Make sure that you have {saved:hcSaveAs}
+any files before quitting, because next time you load ZiLEM then all the
+memory will have been reset.
+
+.topic hcEdit = 1035
+ Edit Menu ‹
+  ‹‹‹‹‹‹‹‹‹€
+  
+This menu contains menu items which allow you to fill, copy or paste a
+section of (Z80 memory:hcZ80Memory}.
+
+ {Fill:hcFill}       {Copy:hcCopy}          {Paste:hcPaste}
+ 
+.topic hcFill = 1002
+ Edit|Fill ‹
+  ‹‹‹‹‹‹‹‹‹€
+  
+
+.topic hcSearch = 1036
+.topic hcFind = 1004
+.topic hcReplace = 1005
+.topic hcSearchAgain = 1006
+.topic hcGoto = 1007
+.topic hcRunMenu = 1037
+.topic hcRun = 1008
+.topic hcStep = 1009
+.topic hcTrace = 1010
+.topic hcGoToCursor = 1011
+.topic hcInterrupts = 1038
+.topic hcMode = 1012
+.topic hcInterrupt = 1033
+.topic hcNMI = 1013
+.topic hcDebug = 1039
+.topic hcBreakpoints = 1014
+.topic hcRegister = 1015
+.topic hcWatch = 1016
+.topic hcUserScreen = 1018
+.topic hcAddWatch = 1019
+.topic hcAddBreakpoint = 1020
+.topic hcOptions = 1040
+.topic hcTerminal = 1021
+.topic hcColours = 1022
+.topic hcPreferences = 1023
+.topic hcOptionsOpen = 1024
+.topic hcOptionsSave = 1025
+.topic hcOptionsSaveAs = 1026
+.topic hcWindow = 1041
+.topic hcHelp = 1042
+.topic hcIndex = 1027
+.topic hcTopic = 1028
+.topic hcPreviousTopic = 1029
+.topic hcUsing = 1030
+.topic hcZ80 = 1031
+.topic hcAbout = 1032
+.topic hcGotoInputLine = 1044
+.topic hcOkButton = 1045
+.topic hcCancelButton = 1046
+.topic hcFillFromInputLine = 1047
+.topic hcFillToInputLine = 1048
+.topic hcFillWithInputLine = 1049
+.topic hcFileInputLine = 1050
+.topic hcFileList = 1051
+.topic hcLoadInputLine = 1052
+.topic hcHelpButton = 1053
+.topic hcDirInput = 1054
+.topic hcDirList = 1055
+.topic hcChangeDirButton = 1056
+.topic hcRevertButton = 1057
+.topic hcSaveFromInputLine = 1058
+.topic hcSaveToInputLine = 1059
+.topic hcDefaultBaseRadio = 1060
+.topic hcDefaultBaseHexRadio = 1060
+.topic hcDefaultBaseDecimalRadio = 1061
+.topic hcPrefChecks = 1062
+.topic hcPrefDisplayCheck = 1062
+.topic hcPrefPrintCheck = 1063
+.topic hcPrefUpperCheck = 1064
+.topic hcPrefFollowCheck = 1065
+.topic hcCopyFromInputLine = 1003
+.topic hcCopyToInputLine = 1066
+.topic hcPasteInputLine = 1067
+.topic hcScreenRadio = 1068
+.topic hcScreen24Radio = 1068
+.topic hcScreen4350Radio = 1069
+.topic hcFindInputLine = 1070
+.topic hcReplaceInputLine = 1071
+.topic hcCodeInputLine = 1072
+.topic hcEnterButton = 1073
+.topic hcFinishButton = 1074
+.topic hcCodeAddress = 1075
+.topic hcRedrawCode = 1076
+.topic hcInterruptInput = 1077
+.topic hcInterruptModeRadio = 1078
+.topic hcInterruptMode0Radio = 1078
+.topic hcInterruptMode1Radio = 1079
+.topic hcInterruptMode2Radio = 1080
+.topic hcKindRadio = 1083
+.topic hcKindAddressRadio = 1083
+.topic hcKindBCRadio = 1084
+.topic hcKindDERadio = 1085
+.topic hcKindHLRadio = 1086
+.topic hcKindIXRadio = 1087
+.topic hcKindIYRadio = 1088
+.topic hcKindSPRadio = 1089
+.topic hcKindPCRadio = 1090
+.topic hcKindInputLine = 1082
+.topic hcPrintFromInputLine = 1092
+.topic hcPrintToInputLine = 1093
+.topic hcPrintRadio = 1094
+.topic hcPrintHexRadio = 1094
+.topic hcPrintASCIIRadio = 1095
+.topic hcCode = 1096
+.topic hcShowRegisters = 1097
+.topic hcShowMemory = 1098
+.topic hcSaving = 10003
+.topic hcLoading = 10004
+.topic hcFilling = 10005
+.topic hcCopying = 10006
+.topic hcPasting = 10007
+.topic hcWatchWindow = 10000
+.topic hcCodeWindow = 10001
+.topic hcHexWindow = 10002
+.topic hcAddBreakpointButton = 1091
+.topic hcBreakpointInputLine = 1081
+.topic hcPasscountInputLine = 1099
+.topic hcBreakpointListBox = 1100
+.topic hcRemoveBreakpointButton = 1102
+.topic hcCopy = 65398
+.topic hcDosShell = 65287
+.topic hcExit = 65288
+.topic hcPaste = 65299
+.topic hcSaveAs = 65284
+.topic hcZ80file = 9000
+.topic hcZ80memory = 9001
+.topic hcChangeDir = 65286
