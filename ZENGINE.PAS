@@ -15,13 +15,13 @@ Uses
   Objects, ZTerminl, Drivers, ZConsts;
 
 Const
-	fSign = 128;
-	fZero = 64;
-	fHalf = 16;
-	fParity = 4;
-	fOver = 4;
-	fSub = 2;
-	fCarry = 1;
+  fSign = 128;
+  fZero = 64;
+  fHalf = 16;
+  fParity = 4;
+  fOver = 4;
+  fSub = 2;
+  fCarry = 1;
   Bit0 = 1;
   Bit1 = 2;
   Bit2 = 4;
@@ -50,7 +50,7 @@ Type
 
   PEngine = ^TEngine;
   TEngine = Object(TObject)
-  	ShiftState : ^Word;
+    ShiftState : ^Word;
     PZMem : Pointer;
     ZRegs : TARegs;    {Standard Z80 Registers}
     ARegs : TARegs;    {Alternative Z80 Registers}
@@ -61,8 +61,8 @@ Type
     Constructor Init(AZMem : Pointer; ATerminal : PZTerminal);
     Function Execute(const Instruction : Byte) : Byte;
     Procedure DoCALL(AWord : Word);
-		Procedure DoPUSH(const AWord : Word);
-		Procedure StoreByte(const AWord : Word; const AByte : Byte);
+    Procedure DoPUSH(const AWord : Word);
+    Procedure StoreByte(const AWord : Word; const AByte : Byte);
   End;
 
 Implementation
@@ -190,11 +190,11 @@ Begin
   End;
   AByte := TempByte;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fHalf)) +
-  	(Flags and (fSign+fZero+fHalf));
-	If (Flags and fOver) = fOver then
+    (Flags and (fSign+fZero+fHalf));
+  If (Flags and fOver) = fOver then
     ZRegs.Flags := ZRegs.Flags or 4 else
     ZRegs.Flags := ZRegs.Flags and not 4;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|Increment}
 
 Procedure Decrement(Var AByte : Byte);
@@ -213,8 +213,8 @@ Begin
   End;
   AByte := TempByte;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fHalf)) +
-  	(Flags and (fSign+fZero+fHalf));
-	If (Flags and fOver) = fOver then
+    (Flags and (fSign+fZero+fHalf));
+  If (Flags and fOver) = fOver then
     ZRegs.Flags := ZRegs.Flags or 4 else
     ZRegs.Flags := ZRegs.Flags and not 4;
   ZRegs.Flags := ZRegs.Flags or fSub;
@@ -239,8 +239,8 @@ Begin
   End;
   ZRegs.HL := LocHL;
   ZRegs.Flags := (ZRegs.Flags and not fCarry) +
-  	(Flags and fCarry);
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+    (Flags and fCarry);
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|AddHL}
 
 Procedure AddA(AByte : Byte);
@@ -262,11 +262,11 @@ Begin
   End;
   ZRegs.A := LocA;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fHalf+fCarry)) +
-  	(Flags and (fSign+fZero+fHalf+fCarry));
-	If (Flags and fOver) = fOver then
+    (Flags and (fSign+fZero+fHalf+fCarry));
+  If (Flags and fOver) = fOver then
     ZRegs.Flags := ZRegs.Flags or 4 else
     ZRegs.Flags := ZRegs.Flags and not 4;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|AdddA}
 
 Procedure AdcA(AByte : Byte);
@@ -288,11 +288,11 @@ Begin
   End;
   ZRegs.A := LocA;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fHalf+fCarry)) +
-  	(Flags and (fSign+fZero+fHalf+fCarry));
-	If (Flags and fOver) = fOver then
+    (Flags and (fSign+fZero+fHalf+fCarry));
+  If (Flags and fOver) = fOver then
     ZRegs.Flags := ZRegs.Flags or 4 else
     ZRegs.Flags := ZRegs.Flags and not 4;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|AdcA}
 
 Procedure SubA(AByte : Byte);
@@ -314,8 +314,8 @@ Begin
   End;
   ZRegs.A := LocA;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fHalf+fCarry)) +
-  	(Flags and (fSign+fZero+fHalf+fCarry));
-	If (Flags and fOver) = fOver then
+    (Flags and (fSign+fZero+fHalf+fCarry));
+  If (Flags and fOver) = fOver then
     ZRegs.Flags := ZRegs.Flags or 4 else
     ZRegs.Flags := ZRegs.Flags and not 4;
   ZRegs.Flags := ZRegs.Flags or fSub;
@@ -340,8 +340,8 @@ Begin
   End;
   ZRegs.A := LocA;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fHalf+fCarry)) +
-  	(Flags and (fSign+fZero+fHalf+fCarry));
-	If (Flags and fOver) = fOver then
+    (Flags and (fSign+fZero+fHalf+fCarry));
+  If (Flags and fOver) = fOver then
     ZRegs.Flags := ZRegs.Flags or 4 else
     ZRegs.Flags := ZRegs.Flags and not 4;
   ZRegs.Flags := ZRegs.Flags or fSub;
@@ -366,7 +366,7 @@ Begin
   End;
   ZRegs.A := LocA;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fParity)) +
-  	(Flags and (fSign+fZero+fParity));
+    (Flags and (fSign+fZero+fParity));
   ZRegs.Flags := ZRegs.Flags or fHalf;
   ZRegs.Flags := ZRegs.Flags and not fCarry;
   ZRegs.Flags := ZRegs.Flags and not fSub;
@@ -391,10 +391,10 @@ Begin
   End;
   ZRegs.A := LocA;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fParity)) +
-  	(Flags and (fSign+fZero+fParity));
+    (Flags and (fSign+fZero+fParity));
   ZRegs.Flags := ZRegs.Flags and not fHalf;
-	ZRegs.Flags := ZRegs.Flags and not fCarry;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fCarry;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|XorA}
 
 Procedure OrA(AByte : Byte);
@@ -416,10 +416,10 @@ Begin
   End;
   ZRegs.A := LocA;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fParity)) +
-  	(Flags and (fSign+fZero+fParity));
+    (Flags and (fSign+fZero+fParity));
   ZRegs.Flags := ZRegs.Flags and not fHalf;
-	ZRegs.Flags := ZRegs.Flags and not fCarry;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fCarry;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|OrA}
 
 Procedure CpA(AByte : Byte);
@@ -439,8 +439,8 @@ Begin
     MOV Flags,AX
   End;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fHalf+fCarry)) +
-  	(Flags and (fSign+fZero+fHalf+fCarry));
-	If (Flags and fOver) = fOver then
+    (Flags and (fSign+fZero+fHalf+fCarry));
+  If (Flags and fOver) = fOver then
     ZRegs.Flags := ZRegs.Flags or 4 else
     ZRegs.Flags := ZRegs.Flags and not 4;
   ZRegs.Flags := ZRegs.Flags or fSub;
@@ -473,7 +473,7 @@ Begin
   End;
   ZRegs.A := LocA;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fHalf+fCarry+fParity)) +
-  	(Flags and (fSign+fZero+fHalf+fCarry+fParity));
+    (Flags and (fSign+fZero+fHalf+fCarry+fParity));
 End; {of TEngine.Execute|DoDAA}
 
 Procedure DoRLCA;
@@ -492,9 +492,9 @@ Begin
   End;
   ZRegs.A := LocA;
   ZRegs.Flags := (ZRegs.Flags and not fCarry) +
-  	(Flags and fCarry);
+    (Flags and fCarry);
   ZRegs.Flags := ZRegs.Flags and not fHalf;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|DoRLCA}
 
 Procedure DoRRCA;
@@ -513,9 +513,9 @@ Begin
   End;
   ZRegs.A := LocA;
   ZRegs.Flags := (ZRegs.Flags and not (fCarry)) +
-  	(Flags and (fCarry));
+    (Flags and (fCarry));
   ZRegs.Flags := ZRegs.Flags and not fHalf;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|DoRRCA}
 
 Procedure DoRLA;
@@ -528,9 +528,9 @@ Begin
   LocA := ZRegs.A;
   Flags := ZRegs.Flags;
   Asm
-  	MOV AX,Flags
-  	PUSH AX
-  	POPF
+    MOV AX,Flags
+    PUSH AX
+    POPF
     RCL LocA,1
     PUSHF
     POP AX
@@ -538,9 +538,9 @@ Begin
   End;
   ZRegs.A := LocA;
   ZRegs.Flags := (ZRegs.Flags and not (fCarry)) +
-  	(Flags and (fCarry));
+    (Flags and (fCarry));
   ZRegs.Flags := ZRegs.Flags and not fHalf;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|DoRLA}
 
 Procedure DoRRA;
@@ -553,9 +553,9 @@ Begin
   LocA := ZRegs.A;
   Flags := ZRegs.Flags;
   Asm
-  	MOV AX,Flags
-  	PUSH AX
-  	POPF
+    MOV AX,Flags
+    PUSH AX
+    POPF
     RCR LocA,1
     PUSHF
     POP AX
@@ -563,9 +563,9 @@ Begin
   End;
   ZRegs.A := LocA;
   ZRegs.Flags := (ZRegs.Flags and not (fCarry)) +
-  	(Flags and (fCarry));
+    (Flags and (fCarry));
   ZRegs.Flags := ZRegs.Flags and not fHalf;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|DoRRA}
 
 Procedure DoPOP(var AWord : Word);
@@ -592,7 +592,7 @@ Var
 Procedure DoRLC;
 
 Var
-	AByte : Byte;
+  AByte : Byte;
   Flags : Word;
 
 Begin
@@ -604,15 +604,15 @@ Begin
     MOV Flags,AX
   End;
   ZRegs.Flags := (ZRegs.Flags and not (fCarry)) +
-  	(Flags and (fCarry));
+    (Flags and (fCarry));
   Asm
     CMP AByte,0  {To set the flags right}
   End;
   PByte^ := AByte;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fParity)) +
-  	(Flags and (fSign+fZero+fParity));
+    (Flags and (fSign+fZero+fParity));
   ZRegs.Flags := ZRegs.Flags and not fHalf;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|SectionB|DoRLC}
 
 Procedure DoRRC;
@@ -630,15 +630,15 @@ Begin
     MOV Flags,AX
   End;
   ZRegs.Flags := (ZRegs.Flags and not (fCarry)) +
-  	(Flags and (fCarry));
+    (Flags and (fCarry));
   Asm
     CMP AByte,0  {To set the flags right}
   End;
   PByte^ := AByte;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fParity)) +
-  	(Flags and (fSign+fZero+fParity));
+    (Flags and (fSign+fZero+fParity));
   ZRegs.Flags := ZRegs.Flags and not fHalf;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|SectionB|DoRRC}
 
 Procedure DoRL;
@@ -651,24 +651,24 @@ Begin
   AByte := PByte^;
   Flags := ZRegs.Flags;
   Asm
-  	MOV AX,Flags
-  	PUSH AX
-  	POPF
+    MOV AX,Flags
+    PUSH AX
+    POPF
     RCL AByte,1
     PUSHF
     POP AX
     MOV Flags,AX
   End;
   ZRegs.Flags := (ZRegs.Flags and not (fCarry)) +
-  	(Flags and (fCarry));
+    (Flags and (fCarry));
   Asm
     CMP AByte,0  {To set the flags right}
   End;
   PByte^ := AByte;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fParity)) +
-  	(Flags and (fSign+fZero+fParity));
+    (Flags and (fSign+fZero+fParity));
   ZRegs.Flags := ZRegs.Flags and not fHalf;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|SectionB|DoRL}
 
 Procedure DoRR;
@@ -681,24 +681,24 @@ Begin
   AByte := PByte^;
   Flags := ZRegs.Flags;
   Asm
-  	MOV AX,Flags
-  	PUSH AX
-  	POPF
+    MOV AX,Flags
+    PUSH AX
+    POPF
     RCR AByte,1
     PUSHF
     POP AX
     MOV Flags,AX
   End;
   ZRegs.Flags := (ZRegs.Flags and not (fCarry)) +
-  	(Flags and (fCarry));
+    (Flags and (fCarry));
   Asm
     CMP AByte,0  {To set the flags right}
   End;
   PByte^ := AByte;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fParity)) +
-  	(Flags and (fSign+fZero+fParity));
+    (Flags and (fSign+fZero+fParity));
   ZRegs.Flags := ZRegs.Flags and not fHalf;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|SectionB|DoRR}
 
 Procedure DoSLA;
@@ -716,15 +716,15 @@ Begin
     MOV Flags,AX
   End;
   ZRegs.Flags := (ZRegs.Flags and not (fCarry)) +
-  	(Flags and (fCarry));
+    (Flags and (fCarry));
   Asm
     CMP AByte,0  {To set the flags right}
   End;
   PByte^ := AByte;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fParity)) +
-  	(Flags and (fSign+fZero+fParity));
+    (Flags and (fSign+fZero+fParity));
   ZRegs.Flags := ZRegs.Flags and not fHalf;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|SectionB|DoSLA}
 
 Procedure DoSRA;
@@ -742,15 +742,15 @@ Begin
     MOV Flags,AX
   End;
   ZRegs.Flags := (ZRegs.Flags and not (fCarry)) +
-  	(Flags and (fCarry));
+    (Flags and (fCarry));
   Asm
     CMP AByte,0  {To set the flags right}
   End;
   PByte^ := AByte;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fParity)) +
-  	(Flags and (fSign+fZero+fParity));
+    (Flags and (fSign+fZero+fParity));
   ZRegs.Flags := ZRegs.Flags and not fHalf;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|SectionB|DoSRA}
 
 Procedure DoSLL;
@@ -768,15 +768,15 @@ Begin
     MOV Flags,AX
   End;
   ZRegs.Flags := (ZRegs.Flags and not (fCarry)) +
-  	(Flags and (fCarry));
+    (Flags and (fCarry));
   Asm
     CMP AByte,0  {To set the flags right}
   End;
   PByte^ := AByte;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fParity)) +
-  	(Flags and (fSign+fZero+fParity));
+    (Flags and (fSign+fZero+fParity));
   ZRegs.Flags := ZRegs.Flags and not fHalf;
-	ZRegs.Flags := ZRegs.Flags and not fSub;
+  ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|SectionB|DoSLL}
 
 Procedure DoSRL;
@@ -794,13 +794,13 @@ Begin
     MOV Flags,AX
   End;
   ZRegs.Flags := (ZRegs.Flags and not (fCarry)) +
-  	(Flags and (fCarry));
+    (Flags and (fCarry));
   Asm
     CMP AByte,0  {To set the flags right}
   End;
   PByte^ := AByte;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fParity)) +
-  	(Flags and (fSign+fZero+fParity));
+    (Flags and (fSign+fZero+fParity));
   ZRegs.Flags := ZRegs.Flags and not fHalf;
   ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|SectionB|DoSRL}
@@ -822,7 +822,7 @@ Begin
   End;
   PByte^ := AByte;
   ZRegs.Flags := (ZRegs.Flags and not (fZero)) +
-  	(Flags and (fZero));
+    (Flags and (fZero));
   ZRegs.Flags := ZRegs.Flags or fHalf;
   ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|SectionB|DoBIT}
@@ -911,8 +911,8 @@ Begin
   End;
   ZRegs.HL := LocHL;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fCarry+fHalf)) +
-  	(Flags and (fSign+fZero+fCarry+fHalf));
-	If (Flags and fOver) = fOver then
+    (Flags and (fSign+fZero+fCarry+fHalf));
+  If (Flags and fOver) = fOver then
     ZRegs.Flags := ZRegs.Flags or 4 else
     ZRegs.Flags := ZRegs.Flags and not 4;
   ZRegs.Flags := ZRegs.Flags or fSub;
@@ -936,8 +936,8 @@ Begin
   End;
   ZRegs.HL := LocHL;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fCarry+fHalf)) +
-  	(Flags and (fSign+fZero+fCarry+fHalf));
-	If (Flags and fOver) = fOver then
+    (Flags and (fSign+fZero+fCarry+fHalf));
+  If (Flags and fOver) = fOver then
     ZRegs.Flags := ZRegs.Flags or 4 else
     ZRegs.Flags := ZRegs.Flags and not 4;
   ZRegs.Flags := ZRegs.Flags and not fSub;
@@ -959,8 +959,8 @@ Begin
   End;
   ZRegs.A := LocA;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fCarry+fHalf)) +
-  	(Flags and (fSign+fZero+fCarry+fHalf));
-	If (Flags and fOver) = fOver then
+    (Flags and (fSign+fZero+fCarry+fHalf));
+  If (Flags and fOver) = fOver then
     ZRegs.Flags := ZRegs.Flags or 4 else
     ZRegs.Flags := ZRegs.Flags and not 4;
   ZRegs.Flags := ZRegs.Flags or fSub;
@@ -984,7 +984,7 @@ Begin
     MOV Flags,AX
   End;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fParity)) +
-  	(Flags and (fSign+fZero+fParity));
+    (Flags and (fSign+fZero+fParity));
   ZRegs.Flags := ZRegs.Flags and not fSub;
   ZRegs.Flags := ZRegs.Flags and not fHalf;
 End; {of TEngine.Execute|SectionE|DoRRDHL}
@@ -1007,7 +1007,7 @@ Begin
     MOV Flags,AX
   End;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fParity)) +
-  	(Flags and (fSign+fZero+fParity));
+    (Flags and (fSign+fZero+fParity));
   ZRegs.Flags := ZRegs.Flags and not fSub;
   ZRegs.Flags := ZRegs.Flags and not fHalf;
 End; {of TEngine.Execute|SectionE|DoRLDHL}
@@ -1028,7 +1028,7 @@ Begin
     MOV Flags,AX
   End;
   ZRegs.Flags := (ZRegs.Flags and not (fSign+fZero+fParity)) +
-  	(Flags and (fSign+fZero+fParity));
+    (Flags and (fSign+fZero+fParity));
   ZRegs.Flags := ZRegs.Flags and not fHalf;
   ZRegs.Flags := ZRegs.Flags and not fSub;
 End; {of TEngine.Execute|SectionE|DoINr}
@@ -1121,9 +1121,9 @@ Begin
     $43 : StoreWord(ReadWord,ZRegs.BC);
     $44 : DoNEG;
     $45 : Begin
-    				DoRET;
-    				ORegs.IFF1 := ORegs.IFF2;
-    			End;
+            DoRET;
+            ORegs.IFF1 := ORegs.IFF2;
+          End;
     $46 : ORegs.IMode := 0;
     $47 : ORegs.I := ZRegs.A;
     $48 : DoINr(ZRegs.C);
@@ -1138,22 +1138,22 @@ Begin
     $53 : StoreWord(ReadWord,ZRegs.DE);
     $56 : ORegs.IMode := 1;
     $57 : Begin
-    				ZRegs.A := ORegs.I;
-    				If ORegs.IFF2 then
-					    ZRegs.Flags := ZRegs.Flags or fParity else
-    					ZRegs.Flags := ZRegs.Flags and not fParity;
-    			End;
+            ZRegs.A := ORegs.I;
+            If ORegs.IFF2 then
+              ZRegs.Flags := ZRegs.Flags or fParity else
+              ZRegs.Flags := ZRegs.Flags and not fParity;
+          End;
     $58 : DoINr(ZRegs.E);
     $59 : DoOUT(ZRegs.C,ZRegs.E);
     $5A : AdcHL(ZRegs.DE);
     $5B : ZRegs.DE := GetWord(ReadWord);
     $5E : ORegs.IMode := 2;
     $5F : Begin
-    				ZRegs.A := ORegs.R;
-    				If ORegs.IFF2 then
-					    ZRegs.Flags := ZRegs.Flags or fParity else
-    					ZRegs.Flags := ZRegs.Flags and not fParity;
-    			End;
+            ZRegs.A := ORegs.R;
+            If ORegs.IFF2 then
+              ZRegs.Flags := ZRegs.Flags or fParity else
+              ZRegs.Flags := ZRegs.Flags and not fParity;
+          End;
     $60 : DoINr(ZRegs.H);
     $61 : DoOUT(ZRegs.C,ZRegs.H);
     $62 : SbcHL(ZRegs.HL);
@@ -1214,7 +1214,7 @@ Label
   ReadNextByte, FirstTime;
 
 Begin
-	Execute := exOk;
+  Execute := exOk;
   OrigPC := IRegs.PC;
   HLChar := 'H';
   AByte := Instruction;
@@ -1342,7 +1342,7 @@ FirstTime:
     $3E : ZRegs.A := ReadByte;
     $3F : If (ZRegs.Flags and fCarry) = 0 then {ccf}
             ZRegs.Flags := ZRegs.Flags or fCarry else
-						ZRegs.Flags := ZRegs.Flags and not fCarry;
+            ZRegs.Flags := ZRegs.Flags and not fCarry;
     $40 : Begin End;  {ld b,b}
     $41 : ZRegs.B := ZRegs.C;
     $42 : ZRegs.B := ZRegs.D;

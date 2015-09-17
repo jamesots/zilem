@@ -95,7 +95,7 @@ Begin
 End; {of TZRangeValidator.Transfer}
 
 Constructor TZRangeValidator.Init(AMin, AMax : Longint; AHexMode :
-	Boolean);
+  Boolean);
 
 Var
   TempHexMode : Boolean;

@@ -252,7 +252,7 @@ Const
   
 {highest wt constant = 8, gaps = (0)}
 
-	coBreakpointExists = -3;
+  coBreakpointExists = -3;
 
 Implementation
 

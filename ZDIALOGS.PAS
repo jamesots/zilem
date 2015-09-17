@@ -14,9 +14,9 @@ Uses
   ZValid, ZGlobals, ZInputs;
 
 Type
-	PPrintDialog = ^TPrintDialog;
+  PPrintDialog = ^TPrintDialog;
   TPrintDialog = Object(TDialog)
-  	Constructor Init;
+    Constructor Init;
   End;
 
   PGotoDialog = ^TGotoDialog;
@@ -31,14 +31,14 @@ Type
 
   PLoadDialog = ^TLoadDialog;
   TLoadDialog = Object(TFileDialog)
-	  PLoadInputLine : PInputLine;
+    PLoadInputLine : PInputLine;
     Constructor Init(AWildCard : String);
   End;
 
   PSaveDialog = ^TSaveDialog;
   TSaveDialog = Object(TFileDialog)
-	  PSaveFromInputLine : PAddressInputLine;
-	  PSaveToInputLine : PAddressInputLine;
+    PSaveFromInputLine : PAddressInputLine;
+    PSaveToInputLine : PAddressInputLine;
     Constructor Init(AWildCard : String);
   End;
 
@@ -49,8 +49,8 @@ Type
 
   PCopyDialog = ^TCopyDialog;
   TCopyDialog = Object(TDialog)
-	  PCopyFromInputLine : PAddressInputLine;
-	  PCopyToInputLine : PAddressInputLine;
+    PCopyFromInputLine : PAddressInputLine;
+    PCopyToInputLine : PAddressInputLine;
     Constructor Init;
   End;
 
@@ -61,7 +61,7 @@ Type
 
   PFindDialog = ^TFindDialog;
   TFindDialog = Object(TDialog)
-	  PFindStringInputLine : PStringInputLine;
+    PFindStringInputLine : PStringInputLine;
     Constructor Init;
   End;
 
@@ -80,7 +80,7 @@ Type
 
   PInterruptDialog = ^TInterruptDialog;
   TInterruptDialog = Object(TDialog)
-	  PInterruptInput : PByteInputLine;
+    PInterruptInput : PByteInputLine;
     Constructor Init;
   End;
 
@@ -89,20 +89,20 @@ Implementation
 Constructor TPrintDialog.Init;
 
 Var
-	R : TRect;
+  R : TRect;
   PPrintFromInputLine,
   PPrintToInputLine : PAddressInputLine;
   PPrintRadio : PRadioButtons;
   PPrintButton : PButton;
 
 Begin
-	R.Assign(0,0,26,14);
+  R.Assign(0,0,26,14);
   Inherited Init(R,'Print');
   Options := Options or ofCentered;
 
   R.Assign(3,3,13,4);
   PPrintFromInputLine := New(PAddressInputLine,Init(R,
-		hcPrintFromInputLine));
+    hcPrintFromInputLine));
   Insert(PPrintFromInputLine);
   R.Assign(2,2,14,3);
   Insert(New(PLabel,Init(R,'Print ~f~rom',PPrintFromInputLine)));
@@ -174,21 +174,21 @@ Begin
 
   R.Assign(3,3,34,4);
   PFindStringInputLine := New(PStringInputLine,Init(R,255,
-		hcFindInputLine));
+    hcFindInputLine));
   Insert(PFindStringInputLine);
   R.Assign(34,3,37,4);
   Insert(New(PHistory,Init(R,PFindStringInputLine,
-		hsReplaceFindInputLine)));
+    hsReplaceFindInputLine)));
   R.Assign(2,2,17,3);
   Insert(New(PLabel,Init(R,'~S~tring to find',PFindStringInputLine)));
 
   R.Assign(3,6,34,7);
   PReplaceStringInputLine := New(PStringInputLine,Init(R,255,
-  	hcReplaceInputLine));
+    hcReplaceInputLine));
   Insert(PReplaceStringInputLine);
   R.Assign(34,6,37,7);
   Insert(New(PHistory,Init(R,PReplaceStringInputLine,
-		hsReplaceInputLine)));
+    hsReplaceInputLine)));
   R.Assign(2,5,17,6);
   Insert(New(PLabel,Init(R,'~N~ew String',PReplaceStringInputLine)));
 
@@ -218,7 +218,7 @@ Begin
 
   R.Assign(3,3,33,4);
   PFindStringInputLine := New(PStringInputLine,Init(R,255,
-		hcFindInputLine));
+    hcFindInputLine));
   Insert(PFindStringInputLine);
   R.Assign(33,3,36,4);
   Insert(New(PHistory,Init(R,PFindStringInputLine,hsFindInputLine)));
@@ -282,7 +282,7 @@ Begin
 
   R.Assign(3,3,13,4);
   PCopyFromInputLine := New(PAddressInputLine,Init(R,
-		hcCopyFromInputLine));
+    hcCopyFromInputLine));
   Insert(PCopyFromInputLine);
   R.Assign(2,2,12,3);
   Insert(New(PLabel,Init(R,'Copy ~f~rom',PCopyFromInputLine)));
@@ -435,11 +435,11 @@ Var
 
 Begin
   Inherited Init(AWildCard,'Save File As','~S~ave file as',fdOkButton,
-		hsSave);
+    hsSave);
 
   R.Assign(36,9,45,10);
   PSaveFromInputLine := New(PAddressInputLine,Init(R,
-		hcSaveFromInputLine));
+    hcSaveFromInputLine));
   Insert(PSaveFromInputLine);
   R.Assign(35,8,45,9);
   Insert(New(PLabel,Init(R,'Save ~f~rom',PSaveFromInputLine)));
@@ -524,7 +524,7 @@ Begin
   R.Assign(14,6,22,7);
   PFillInputLine := New(PInputLine,Init(R,6));
   PFillInputLine^.SetValidator(New(PZRangeValidator,Init(0,255,
-		Pref.Base=0)));
+    Pref.Base=0)));
   PFillInputLine^.HelpCtx := hcFillWithInputLine;
   Insert(PFillInputLine);
   R.Assign(2,6,12,7);

@@ -10,13 +10,13 @@ Unit ZDisk;
 Interface
 
 Uses
-	ZConsts;
+  ZConsts;
 
 Type
-	PCreateDiskDialog = ^TCreateDiskDialog;
-	TCreateDiskDialog = Object(TDialog)
-		Constructor Init;
-	End;
+  PCreateDiskDialog = ^TCreateDiskDialog;
+  TCreateDiskDialog = Object(TDialog)
+    Constructor Init;
+  End;
 
 Implementation
 
@@ -28,53 +28,53 @@ End;
 End.
 
 Const
-	zdCreate = 1;
-	zdOpen = 0;
+  zdCreate = 1;
+  zdOpen = 0;
 
 Type
-	DiskInfoRec = Record
-  	Sector, Cylinder, Side : Byte;
+  DiskInfoRec = Record
+    Sector, Cylinder, Side : Byte;
     SectorSize : Word;
   End;
 
-	PZDisk = ^TZDisk;
-	TZDisk = Object(TObject);
+  PZDisk = ^TZDisk;
+  TZDisk = Object(TObject);
     DiskInfo : DiskInfoRec;
-		DMA : Word;
-		PZMem : Pointer;
-		DiskStream : TDosStream;
-		Procedure ReadSector;
-		Procedure WriteSector;
-		Constructor Init(Name : String; Mode : Byte); virtual;
-		Destructor Done; virtual;
+    DMA : Word;
+    PZMem : Pointer;
+    DiskStream : TDosStream;
+    Procedure ReadSector;
+    Procedure WriteSector;
+    Constructor Init(Name : String; Mode : Byte); virtual;
+    Destructor Done; virtual;
     Procedure Format;
-	End;
+  End;
 
 Const
-	DiskInfoSize : SizeOf(DiskInfoRec);
+  DiskInfoSize : SizeOf(DiskInfoRec);
 
 Constructor Init(Name : String; Mode : Byte; ADiskInfo : DiskInfoRec);
 
 Begin
-	Inherited Init;
+  Inherited Init;
   DiskInfo := ADiskInfo;
-	Case Mode of
-		zdCreate :
-			DiskStream := New(TDosStream,Init(Name,stCreate));
+  Case Mode of
+    zdCreate :
+      DiskStream := New(TDosStream,Init(Name,stCreate));
       Format;
-		zdOpen :
-			DiskStream := New(TDosStream,Init(Name,stOpen));
-	End;
+    zdOpen :
+      DiskStream := New(TDosStream,Init(Name,stOpen));
+  End;
 End;
 
 Procedure Format;
 
 Var
-	AByte : Byte;
+  AByte : Byte;
 
 Begin
-	DiskStream^.Seek(0);
-	DiskStream^.Write(DiskInfo,DiskInfoSize);
+  DiskStream^.Seek(0);
+  DiskStream^.Write(DiskInfo,DiskInfoSize);
   DiskStream^.Seek(DiskInfoSize+DiskInfo.Sector*DiskInfo.Cylinder*DiskInfo.Side*DiskInfo.SectorSize);
-	DiskStream^.Write(AByte,1);
+  DiskStream^.Write(AByte,1);
 End;

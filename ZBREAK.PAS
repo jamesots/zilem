@@ -11,12 +11,12 @@ Interface
 
 Uses
   Objects, Views, Drivers, Dialogs, ZEngine, ZGlobals, ZHex, ZConsts,
-	ZInputs, MsgBox;
+  ZInputs, MsgBox;
 
 Type
   PBreakpointItem = ^TBreakpointItem;
   TBreakpointItem = Object(TObject)
-  	PZMem : Pointer;
+    PZMem : Pointer;
     Address : Word;
     OldCode, PassCount: Byte;
     Constructor Init(AnAddress : Word; APassCount : Byte; APZMem : Pointer);
@@ -33,7 +33,7 @@ Type
     Function GetOld(AnAddress : Word) : Byte;
     Procedure Kill(AnAddress : Word);
     Procedure Error(Code, Info : Integer); virtual;
-		Function Exists : Pointer;
+    Function Exists : Pointer;
   End;
 
   PBreakpointListBox = ^TBreakpointListBox;
@@ -43,8 +43,8 @@ Type
 
   PBreakpointDialog = ^TBreakpointDialog;
   TBreakpointDialog = Object(TDialog)
-  	VScrollBar : PScrollBar;
-	  BreakpointListBox : PBreakpointListBox;
+    VScrollBar : PScrollBar;
+    BreakpointListBox : PBreakpointListBox;
     BreakpointCollection : PBreakpointCollection;
     Constructor Init(ABreakpointCollection : PBreakpointCollection);
     Procedure HandleEvent(var Event : TEvent); virtual;
@@ -93,13 +93,13 @@ End;
 {*********************************************************************}
 
 Constructor TBreakpointDialog.Init(ABreakpointCollection :
-	PBreakpointCollection);
+  PBreakpointCollection);
 
 Var
   R : TRect;
   PBreakpointButton : PButton;
   Info : Record
-  	List : Pointer;
+    List : Pointer;
     Item : Word;
   End;
 
@@ -107,7 +107,7 @@ Begin
   R.Assign(0,0,26,16);
   Inherited Init(R,'Breakpoints');
   Options := Options or ofCentered;
-	BreakpointCollection := ABreakpointCollection;
+  BreakpointCollection := ABreakpointCollection;
 
   R.Assign(22,3,23,10);
   VScrollBar := New(PScrollBar,Init(R));
@@ -131,13 +131,13 @@ Begin
 
   R.Assign(14,11,24,13);
   PBreakpointButton := New(PButton,Init(R,'~A~dd',cmAddBreakpoint,
-  	bfDefault));
+    bfDefault));
   PBreakpointButton^.HelpCtx := hcAddBreakpointButton;
   Insert(PBreakpointButton);
 
   R.Assign(14,13,24,15);
   PBreakpointButton := New(PButton,Init(R,'~R~emove',cmRemoveBreakpoint,
-  	bfDefault));
+    bfDefault));
   PBreakpointButton^.HelpCtx := hcRemoveBreakpointButton;
   Insert(PBreakpointButton);
 
@@ -148,34 +148,34 @@ Procedure TBreakpointDialog.HandleEvent(var Event : TEvent);
 
 Var
   Info : Record
-  	List : PBreakpointCollection;
+    List : PBreakpointCollection;
     Item : Word;
   End;
 
 Begin
-	If Event.What = evCommand then
-  	Case Event.Command of
-    	cmAddBreakpoint:
-      	Begin
-        	Owner^.ExecView(New(PAddBreakpointDialog,Init(BreakpointCollection,
-        		0)));
+  If Event.What = evCommand then
+    Case Event.Command of
+      cmAddBreakpoint:
+        Begin
+          Owner^.ExecView(New(PAddBreakpointDialog,Init(BreakpointCollection,
+            0)));
           BreakpointListBox^.SetRange(BreakpointCollection^.Count);
           BreakpointListBox^.DrawView;
-        	ClearEvent(Event);
+          ClearEvent(Event);
         End;
       cmRemoveBreakpoint:
-    		Begin
-        	BreakpointListBox^.GetData(Info);
+        Begin
+          BreakpointListBox^.GetData(Info);
           If BreakpointCollection^.Count > 0 then
-          	Begin
-							Info.List^.Free(Info.List^.Items^[Info.Item]);
-	            BreakpointListBox^.SetRange(Pred(BreakpointListBox^.Range));
-							BreakpointListBox^.DrawView;
+            Begin
+              Info.List^.Free(Info.List^.Items^[Info.Item]);
+              BreakpointListBox^.SetRange(Pred(BreakpointListBox^.Range));
+              BreakpointListBox^.DrawView;
             End;
-        	ClearEvent(Event);
+          ClearEvent(Event);
         End;
     End;
-	Inherited HandleEvent(Event);
+  Inherited HandleEvent(Event);
 End;
 
 {*********************************************************************}
@@ -197,7 +197,7 @@ Begin
 
   R.Assign(3,3,13,4);
   BreakpointInputLine := New(PAddressInputLine,Init(R,
-  	hcBreakpointInputLine));
+    hcBreakpointInputLine));
   BreakpointInputLine^.SetData(AnAddress);
   Insert(BreakpointInputLine);
   R.Assign(2,2,21,3);
@@ -213,7 +213,7 @@ Begin
 
   R.Assign(2,8,12,10);
   PBreakpointButton := New(PButton,Init(R,'O~k~',cmEnterBreakpoint,
-  	bfDefault));
+    bfDefault));
   PBreakpointButton^.HelpCtx := hcAddBreakpointButton;
   Insert(PBreakpointButton);
 
@@ -239,14 +239,14 @@ Begin
         BreakpointCollection^.Create(Address,Passcount);
         Event.Command := cmOk;
       End;
-	Inherited HandleEvent(Event);
+  Inherited HandleEvent(Event);
 End;
 
 {*********************************************************************}
 {*********************************************************************}
 
 Constructor TBreakpointItem.Init(AnAddress : Word; APassCount : Byte; 
-	APZMem : Pointer);
+  APZMem : Pointer);
 
 Begin
   Inherited Init;
@@ -262,11 +262,11 @@ Destructor TBreakpointItem.Done;
 Begin
   Inherited Done;
   If Byte((Ptr(Seg(PZMem^),Ofs(PZmem^)+Address))^) <> $76 then
-  	Begin
-	    If MessageBox(#3'The halt instruction at this'#13+
-	      #3'breakpoint has been changed.'#13+
-	      #3'Do you want to leave it like this?',nil,mfConfirmation or
-	      mfYesButton or mfNoButton) = cmNo then
+    Begin
+      If MessageBox(#3'The halt instruction at this'#13+
+        #3'breakpoint has been changed.'#13+
+        #3'Do you want to leave it like this?',nil,mfConfirmation or
+        mfYesButton or mfNoButton) = cmNo then
     End else
     Byte((Ptr(Seg(PZMem^),Ofs(PZmem^)+Address))^) := OldCode;
 End;
@@ -277,18 +277,18 @@ End;
 Function TBreakpointCollection.Exists : Pointer;
 
 Var
-	i : Integer;
+  i : Integer;
   Temp : Pointer;
 
 Begin
-	Temp := nil;
-	i := 0;
+  Temp := nil;
+  i := 0;
   If Count>0 then
-  	Repeat
-		  If PBreakpointItem(Items^[i])^.Address = MyAddress then
-	    	Temp := Items^[i];
-	    Inc(i);
-	  Until (i >= Count) or (Temp <> nil);
+    Repeat
+      If PBreakpointItem(Items^[i])^.Address = MyAddress then
+        Temp := Items^[i];
+      Inc(i);
+    Until (i >= Count) or (Temp <> nil);
   Exists := Temp;
 End;
 
@@ -309,31 +309,31 @@ Begin
 End;
 
 Function TBreakpointCollection.BreakAt(AnAddress : Word; var AResult : Byte)
- 	: Boolean;
+   : Boolean;
 
 Var
   BreakItem : PBreakpointItem;
 
 Begin
-	MyAddress := AnAddress;
+  MyAddress := AnAddress;
   BreakItem := PBreakpointItem(Exists);
   If BreakItem = nil then
-  	Begin
-	  	BreakAt := False;
+    Begin
+      BreakAt := False;
       AResult := exUserHalt;
     End else
     Begin
       If BreakItem^.PassCount = 1 then
-      	BreakAt := True else
+        BreakAt := True else
         BreakAt := False;
-    	If BreakItem^.PassCount > 1 then
-      	Begin
-	      	Dec(BreakItem^.PassCount);
+      If BreakItem^.PassCount > 1 then
+        Begin
+          Dec(BreakItem^.PassCount);
           AResult := exOk;
         End;
-			If BreakItem^.PassCount = 0 then
-      	Begin
-        	Kill(AnAddress);
+      If BreakItem^.PassCount = 0 then
+        Begin
+          Kill(AnAddress);
           AResult := exStop;
         End;
     End;

@@ -11,10 +11,10 @@ Interface
 
 Uses
   Objects, Views, Dialogs, Drivers, ZEngine, ZGlobals, ZConsts, ZInputs,
-	MsgBox;
+  MsgBox;
 
 Type
-	PWord = ^Word;
+  PWord = ^Word;
   PByte = ^Byte;
 
   PRegisterInput = ^TRegisterInput;
@@ -26,15 +26,15 @@ Type
     Procedure MoveLeft;
     Procedure MoveRight;
     Procedure Enter(const AChar : Char);
-		Function ChangedCursor(GlobalPos : TPoint) : Boolean;
-	End;
+    Function ChangedCursor(GlobalPos : TPoint) : Boolean;
+  End;
 
   PFlagInput = ^TFlagInput;
   TFlagInput = Object(TView)
     Register : PByte;
     FlagMask : Byte;
     Constructor Init(var Bounds : TRect; ARegister : PByte; AFlagMask :
-			Byte);
+      Byte);
     Procedure Draw; virtual;
     Procedure HandleEvent(var Event : TEvent); virtual;
     Procedure Enter(const AChar : Char);
@@ -73,15 +73,15 @@ Type
     StartAt : Word;
     CursorAt : Word;
     Constructor Init(var Bounds : TRect; AVScroller : PScrollBar;
-    	CPZMem : Pointer; var AnEngine : PEngine);
+      CPZMem : Pointer; var AnEngine : PEngine);
     Procedure Draw; virtual;
     Procedure HandleEvent(var Event : TEvent); virtual;
     Procedure MoveDown;
     Procedure MoveUp;
     Procedure MoveToPC;
     Procedure ScrollDraw; virtual;
-		Function ChangedCursor(GlobalPos : TPoint) : Boolean;
-		Function ChangedPC(GlobalPos : TPoint) : Boolean;
+    Function ChangedCursor(GlobalPos : TPoint) : Boolean;
+    Function ChangedPC(GlobalPos : TPoint) : Boolean;
     Procedure ChangePC;
     Procedure ReCalcCursor;
   End;
@@ -98,7 +98,7 @@ Type
   End;
 
 Function OpCode(var AZMem : Pointer; Address : Word; var AString : String)
-	: Byte;
+  : Byte;
 
 Implementation
 
@@ -328,7 +328,7 @@ Begin
           Case OpCodes[Num,AByte,i] of
             'b' : begin
                     Param := Byte((Ptr(Seg(AZMem^),Ofs(AZmem^)+
-											Address))^);
+                      Address))^);
                     Inc(Address);
                     Inc(Count);
                     If Pref.Base = 0 then
@@ -343,7 +343,7 @@ Begin
                   end;
             'd' : if hlStr <> 'hl' then begin
                     Param := Byte((Ptr(Seg(AZMem^),Ofs(AZmem^)+
-											Address))^);
+                      Address))^);
                     Inc(Address);
                     Inc(Count);
                     If Pref.Base = 0 then
@@ -358,7 +358,7 @@ Begin
                   end;
             'w' : begin
                     Param := LongInt(Byte((Ptr(Seg(AZMem^),Ofs(AZMem^)+
-											Address))^)
+                      Address))^)
                       + 256*Byte((Ptr(Seg(AZMem^),Ofs(AZMem^)+
                       Succ(Address)))^));
                     Inc(Address,2);
@@ -491,7 +491,7 @@ Begin
           Inc(LastNum);
           Number[LastNum] := Word(Ord(AString[succ(i)]));
           AString := Copy(AString,1,Pred(i)) + '%%' + Copy(AString,i+3,
-          	length(AString)-i-2);
+            length(AString)-i-2);
           Inc(i,3);
         End;
 
@@ -504,16 +504,16 @@ Begin
         If i = length(AString) then
           AString := Copy(AString,1,Pred(i)) else
         If (AString[Succ(i)] = ',') or (AString[succ(i)] = ')') or
-        	(AString[succ(i)] = ' ') then
+          (AString[succ(i)] = ' ') then
           Begin
             AString := Copy(AString,1,Pred(i)) + Copy(AString,succ(i),
-            	length(AString)-i);
+              length(AString)-i);
             Dec(i);
           End else
         If (AString[Pred(i)] = ',') or (AString[Pred(i)] = '(') or
-        	(AString[Pred(i)] = ' ') then
+          (AString[Pred(i)] = ' ') then
           AString := Copy(AString,1,Pred(i)) + Copy(AString,succ(i),
-						length(AString)-i);
+            length(AString)-i);
 
       AString[i] := DownCase(AString[i]);       {convert to lower case}
 
@@ -545,8 +545,8 @@ Begin
           Inc(i);
           xy := AString[i];
           If AString[Succ(i)]='+' then
-						AString := Copy(AString,1,i)+
-							Copy(AString,i+2,length(AString)-succ(i));
+            AString := Copy(AString,1,i)+
+              Copy(AString,i+2,length(AString)-succ(i));
         End;
 
       Inc(i);
@@ -558,7 +558,7 @@ Begin
   Code := 0;
   Found := False;
   Repeat                      {search for OpCode}
-  	WrongNum := False;
+    WrongNum := False;
     NumberStr := '';
     If xy=' ' then
       Begin
@@ -582,9 +582,9 @@ Begin
     For i := 1 to length(OpCodes[table,code]) do
       Begin
         If (OpCodes[table,code,i] > #0) and (OpCodes[table,code,i] < #31)
-					then
+          then
           NumberStr := NumberStr + Convert[Ord(OpCodes[table,code,i])]
-						else
+            else
           Case OpCodes[table,code,i] of
             #31 : NumberStr := NumberStr+hlStr;
             #128 : NumberStr := NumberStr+hStr;
@@ -601,12 +601,12 @@ Begin
           Else
             If OpCodes[table,code,i] in ['0'..'9'] then
               Begin
-              	AStr := OpCodes[table,code,i];
+                AStr := OpCodes[table,code,i];
                 If OpCodes[table,code,succ(i)] in ['0'..'9'] then
-                	AStr := AString + OpCodes[table,code,succ(i)];
-              	Val(AStr,ANum,ErrorCode);
+                  AStr := AString + OpCodes[table,code,succ(i)];
+                Val(AStr,ANum,ErrorCode);
                 If ANum <> Number[1] then
-                	WrongNum := True;
+                  WrongNum := True;
                 NumberStr := NumberStr + '%%';
                 Inc(LastNumType);
                 NumberType[LastNumType] := 'n';  {a number!!}
@@ -663,28 +663,28 @@ Begin
           Case NumberType[Code] of
             'e' : Begin
                     ShortInt((Ptr(Seg(AZMem^),Ofs(AZMem^)+Address))^) :=
-                    	ShortInt(Word(Number[Code])-succ(Address));
+                      ShortInt(Word(Number[Code])-succ(Address));
                     Inc(Address);
                     Inc(i);
                   End;
             'b' : Begin
                     Byte((Ptr(Seg(AZMem^),Ofs(AZMem^)+Address))^) :=
-                    	Byte(Number[Code]);
+                      Byte(Number[Code]);
                     Inc(Address);
                     Inc(i);
                   End;
             'w' : Begin
                     Byte((Ptr(Seg(AZMem^),Ofs(AZMem^)+Address))^) :=
-                    	Lo(Number[Code]);
+                      Lo(Number[Code]);
                     Inc(Address);
                     Byte((Ptr(Seg(AZMem^),Ofs(AZMem^)+Address))^) :=
-                    	Hi(Number[Code]);
+                      Hi(Number[Code]);
                     Inc(Address);
                     Inc(i,2);
                   End;
             'd' : Begin
                     ShortInt((Ptr(Seg(AZMem^),Ofs(AZMem^)+Address))^) :=
-                    	ShortInt(Number[Code]);
+                      ShortInt(Number[Code]);
                     Inc(Address);
                     Inc(i,2);
                   End;
@@ -715,18 +715,18 @@ Begin
       CodeInputLine^.GetData(AString);
       ALength := UnCode(TempMem,0,AString);
       If ALength = 0 then
-      	Begin
-	      	MessageBox(#3'Error in mnemonic,'#13#13+
-	      		#3'try again.',nil,mfError or mfOkButton);
-	      	CodeInputLine^.SelectAll(True);
-	      End else
-      	Begin
-					Inc(ANum,UnCode(PZMem,Word(ANum),AString));
-		      If ANum>$FFFF then
-		        ANum := 0;
-		      OpCode(PZMem,ANum,AString);
-		      CodeInputLine^.SetData(AString);
-				End;
+        Begin
+          MessageBox(#3'Error in mnemonic,'#13#13+
+            #3'try again.',nil,mfError or mfOkButton);
+          CodeInputLine^.SelectAll(True);
+        End else
+        Begin
+          Inc(ANum,UnCode(PZMem,Word(ANum),AString));
+          If ANum>$FFFF then
+            ANum := 0;
+          OpCode(PZMem,ANum,AString);
+          CodeInputLine^.SetData(AString);
+        End;
       AddressInputLine^.SetData(ANum);
       ClearEvent(Event);
       Message(Owner^.Owner,evCommand,cmRedrawCode,@Self);
@@ -736,8 +736,8 @@ End; {of TEnterCodeDialog.HandleEvent}
 Destructor TEnterCodeDialog.Done;
 
 Begin
-	Inherited Done;
-	FreeMem(TempMem,10);
+  Inherited Done;
+  FreeMem(TempMem,10);
 End;
 
 Constructor TEnterCodeDialog.Init(APZMem : Pointer; AnAddress : Word);
@@ -795,8 +795,8 @@ End; {of TEnterCodeDialog.Init}
 Procedure TCodeWindow.Close;
 
 Begin
-	If Valid(cmClose) then
-  	Hide;
+  If Valid(cmClose) then
+    Hide;
 End;
 
 Procedure TCodeWindow.HandleEvent(var Event : TEvent);
@@ -813,7 +813,7 @@ Begin
       cmAssemble :
       Begin
         Owner^.ExecView(New(PEnterCodeDialog,Init(PZMem,Interior^.
-					CursorAt)));
+          CursorAt)));
         Interior^.ReCalcCursor;
         ClearEvent(Event);
       End;
@@ -851,9 +851,9 @@ Begin
       StartAt := Engine^.IRegs.PC;
       CursorAt := StartAt;
       Cursor.Y := 0;
-		  SetCursor(0,Cursor.Y);
-		  Delta.Y := Integer(StartAt div 2);
-		  VScrollBar^.SetValue(Integer(CursorAt div 2));
+      SetCursor(0,Cursor.Y);
+      Delta.Y := Integer(StartAt div 2);
+      VScrollBar^.SetValue(Integer(CursorAt div 2));
     End;
   DrawView;
 End; {of TCodeViewer.MoveToPC}
@@ -861,13 +861,13 @@ End; {of TCodeViewer.MoveToPC}
 Procedure TCodeViewer.ReCalcCursor;
 
 Var
-	i : Integer;
+  i : Integer;
   AString : String;
 
 Begin
-	CursorAt := StartAt;
-	For i := 1 to Cursor.Y do
-   	CursorAt := CursorAt + OpCode(PZMem,CursorAt,AString);
+  CursorAt := StartAt;
+  For i := 1 to Cursor.Y do
+     CursorAt := CursorAt + OpCode(PZMem,CursorAt,AString);
 End;
 
 Constructor TCodeViewer.Init(var Bounds : TRect; AVScroller : PScrollBar;
@@ -941,10 +941,10 @@ End; {of TCodeViewer.MoveDown}
 Procedure TCodeViewer.ScrollDraw;
 
 Begin
-	If CursorAt div 2 <> VScrollBar^.Value then
-  	Begin
-	  	CursorAt := VScrollBar^.Value * 2;
-			StartAt := CursorAt;
+  If CursorAt div 2 <> VScrollBar^.Value then
+    Begin
+      CursorAt := VScrollBar^.Value * 2;
+      StartAt := CursorAt;
       Cursor.Y := 0;
       Delta.Y := VScrollBar^.Value;
       DrawView;
@@ -994,7 +994,7 @@ Begin
           ClearEvent(Event);
         End;
       kbCtrlPgUp :
-      	Begin
+        Begin
           Cursor.Y := 0;
           StartAt := 0;
           CursorAt := 0;
@@ -1004,8 +1004,8 @@ Begin
           ClearEvent(Event);
         End;
       kbCtrlPgDn :
-      	Begin
-        	Cursor.Y := 0;
+        Begin
+          Cursor.Y := 0;
           StartAt := 0;
           CursorAt := 0;
           SetCursor(0,Cursor.Y);
@@ -1014,7 +1014,7 @@ Begin
           ClearEvent(Event);
         End;
       kbPgUp :
-      	Begin
+        Begin
           Cursor.Y := 0;
           StartAt := CursorAt-$20;
           CursorAt := StartAt;
@@ -1024,8 +1024,8 @@ Begin
           ClearEvent(Event);
         End;
       kbPgDn :
-      	Begin
-        	Cursor.Y := 0;
+        Begin
+          Cursor.Y := 0;
           StartAt := CursorAt + $20;
           CursorAt := StartAt;
           SetCursor(0,Cursor.Y);
@@ -1043,31 +1043,31 @@ Begin
         End;
     End;
   If (Event.What = evMouseDown) and not (Event.Double) then
-  	If ChangedCursor(Event.Where) then
-    	ClearEvent(Event);
+    If ChangedCursor(Event.Where) then
+      ClearEvent(Event);
   If (Event.What = evMouseDown) and (Event.Double) then
-  	If ChangedPC(Event.Where) then
-    	ClearEvent(Event);
+    If ChangedPC(Event.Where) then
+      ClearEvent(Event);
 End; {of TCodeViewer.HandleEvent}
 
 Function TCodeViewer.ChangedPC(GlobalPos : TPoint) : Boolean;
 
 Var
-	Pos : TPoint;
+  Pos : TPoint;
   i : Integer;
   AString : String;
 
 Begin
-	MakeLocal(GlobalPos,Pos);
+  MakeLocal(GlobalPos,Pos);
   If MouseInView(GlobalPos) then
     Begin
-    	Cursor.Y := Pos.Y;
+      Cursor.Y := Pos.Y;
       CursorAt := StartAt;
       For i := 1 to Pos.Y do
-      	CursorAt := CursorAt + OpCode(PZMem,CursorAt,AString);
+        CursorAt := CursorAt + OpCode(PZMem,CursorAt,AString);
       SetCursor(0,Cursor.Y);
-		  VScrollBar^.SetValue(Integer(CursorAt div 2));
-		  Delta.Y := Integer(StartAt div 2);
+      VScrollBar^.SetValue(Integer(CursorAt div 2));
+      Delta.Y := Integer(StartAt div 2);
       Engine^.IRegs.PC := CursorAt;
       Message(Owner^.Owner^.Owner,evCommand,cmRedrawAll,@Self);
     End;
@@ -1090,15 +1090,15 @@ Var
 Begin
   MakeLocal(GlobalPos,Pos);
   If MouseInView(GlobalPos) then
-  	Begin
-    	Cursor.Y := Pos.Y;
+    Begin
+      Cursor.Y := Pos.Y;
       CursorAt := StartAt;
       For i := 1 to Pos.Y do
-      	CursorAt := CursorAt + OpCode(PZMem,CursorAt,AString);
+        CursorAt := CursorAt + OpCode(PZMem,CursorAt,AString);
       SetCursor(0,Cursor.Y);
-		  VScrollBar^.SetValue(Integer(CursorAt div 2));
-		  Delta.Y := Integer(StartAt div 2);
-    	DrawView;
+      VScrollBar^.SetValue(Integer(CursorAt div 2));
+      Delta.Y := Integer(StartAt div 2);
+      DrawView;
     End;
 End; {of TRegisterInput.ChangedCursor}
 
@@ -1152,7 +1152,7 @@ Begin
   For i := 1 to (3-Cursor.X) do
     Add := Add*16;
   Register^ := (Register^ and not (Add * $F)) + (Pos(AChar,HexDigits) - 1)
-		* Add;
+    * Add;
   MoveRight;
   DrawView;
   Message(Owner^.Owner^.Owner,evCommand,cmRedrawMemory,nil);
@@ -1166,9 +1166,9 @@ Var
 Begin
   MakeLocal(GlobalPos,Pos);
   If (Pos.X >=0 ) and (Pos.X < 4) and (Pos.Y=0) then
-  	Begin
-	   	Cursor.X := Pos.X;
-    	DrawView;
+    Begin
+       Cursor.X := Pos.X;
+      DrawView;
     End;
 End; {of TRegisterInput.ChangedCursor}
 
@@ -1190,11 +1190,11 @@ Begin
         End;
     End;
   If Event.What = evMouseDown then
-  	If ChangedCursor(Event.Where) then
-    	ClearEvent(Event);
+    If ChangedCursor(Event.Where) then
+      ClearEvent(Event);
   If (Event.What = evKeyDown) and (Upcase(Event.CharCode) in
     ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'])
-			then
+      then
     Begin
       Enter(Upcase(Event.CharCode));
       Message(Owner^.Owner^.Owner, evCommand, cmRedrawAll, nil);
@@ -1203,7 +1203,7 @@ Begin
 End; {of TRegisterInput.HandleEvent}
 
 Constructor TFlagInput.Init(var Bounds : TRect; ARegister : PByte;
-	AFlagMask : Byte);
+  AFlagMask : Byte);
 
 Begin
   Inherited Init(Bounds);
@@ -1239,22 +1239,22 @@ Begin
       '0','1' :
         Begin
           Enter(Event.CharCode);
-		      Message(Owner, evCommand, cmRedrawCode, nil);
+          Message(Owner, evCommand, cmRedrawCode, nil);
           ClearEvent(Event);
         End;
     End;
   If (Event.What = evMouseDown) and (Event.Double) then
-  	Begin
-	  	If (Register^ and FlagMask) = 0 then
-	    	Enter('1') else
-	      Enter('0');
+    Begin
+      If (Register^ and FlagMask) = 0 then
+        Enter('1') else
+        Enter('0');
       Message(Owner, evCommand, cmRedrawCode, nil);
-    	ClearEvent(Event);
+      ClearEvent(Event);
     End;
 End;{of TFlagInput.HandleEvent}
 
 Constructor TShowCode.Init(var Bounds : TRect; APC : PWord; AZMem :
-	Pointer);
+  Pointer);
 
 Begin
   Inherited Init(Bounds);
@@ -1281,8 +1281,8 @@ End; {of TShowCode.Draw}
 Procedure TRegistersDialog.Close;
 
 Begin
-	If Valid(cmClose) then
-  	Hide;
+  If Valid(cmClose) then
+    Hide;
 End;
 
 Constructor TRegistersDialog.Init(AZMem : Pointer; Engine : PEngine);
@@ -1432,12 +1432,12 @@ End; {of TRegistersDialog.Init}
 Procedure TRegistersDialog.HandleEvent(var Event : TEvent);
 
 Begin
-	Inherited HandleEvent(Event);
+  Inherited HandleEvent(Event);
   If (Event.What = evCommand) and (Event.Command = cmRedrawCode) then
-		Begin
-			ReDraw;
-			ClearEvent(Event);
-		End;
+    Begin
+      ReDraw;
+      ClearEvent(Event);
+    End;
 End; {of TRegistersDialog.HandleEvent}
 
 End. {of Unit ZRegDlg}

@@ -107,12 +107,12 @@ Procedure TZTerminal.CursorLeft;
 Begin
   Dec(Pos.X);
   If Pos.X<1 then
-  	If Pos.Y>1 then
-   		Begin
-   			Pos.X := Terminal.Width;
-   			Dec(Pos.Y);
-   		End else
-   		Inc(Pos.X);
+    If Pos.Y>1 then
+       Begin
+         Pos.X := Terminal.Width;
+         Dec(Pos.Y);
+       End else
+       Inc(Pos.X);
   UpdateCursor;
 End; {of TZTerminal.CursorLeft}
 
@@ -152,10 +152,10 @@ Begin
         #$07 : Write(#7);
         #$08 : CursorLeft;
         #$0D : 
-        	Begin
-        		Pos.X := 1;
-        		UpdateCursor;
-					End;
+          Begin
+            Pos.X := 1;
+            UpdateCursor;
+          End;
         #$0A : Begin
                   CursorDown;
                   If Pos.Y = Terminal.Height then
@@ -316,7 +316,7 @@ Begin
   With Terminal, Pos do
     Begin
       Screen^[Y+Pred(Viewport.A.Y),X+Pred(Viewport.A.X)] := Byte(AChar)+
-				256*Attrib;
+        256*Attrib;
       Inc(X);
       If X > (Viewport.B.X-Pred(Viewport.A.X)) then
         If Wrap then

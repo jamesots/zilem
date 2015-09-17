@@ -11,7 +11,7 @@ Const
 
 Type
 
-	{Application to encase the calculator for testing.}
+  {Application to encase the calculator for testing.}
 
   TCalcApp = Object(TApplication)
     Procedure InitStatusLine; virtual;

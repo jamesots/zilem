@@ -21,7 +21,7 @@ Type
     UseHexView : Boolean;
     CurrentPos : Integer;
     Constructor Init(var Bounds : TRect; AVScroller : PScrollBar;
-			CPZMem : Pointer);
+      CPZMem : Pointer);
     Procedure Draw; virtual;
     Procedure HandleEvent(var Event : TEvent); virtual;
     Procedure UpdateCursor;
@@ -46,7 +46,7 @@ Type
 
   PAddressDisplay = ^TAddressDisplay;
   TAddressDisplay = Object(TView)
-  	CurrentPos : PInteger;
+    CurrentPos : PInteger;
     Constructor Init(ACurrentPos : PInteger);
     Procedure Draw; virtual;
   End;
@@ -68,31 +68,31 @@ Implementation
 Constructor TAddressDisplay.Init(ACurrentPos : PInteger);
 
 Var
-	R1,R2 : TRect;
+  R1,R2 : TRect;
 
 Begin
-	Owner^.GetBounds(R1);
-	Options := Options and not ofSelectable;
-	GrowMode := gfGrowLoX;
+  Owner^.GetBounds(R1);
+  Options := Options and not ofSelectable;
+  GrowMode := gfGrowLoX;
   R2.Assign(R1.A.X+2,R1.B.Y-1,R1.A.X+9,R1.B.Y);
-	Inherited Init(R2);
-	CurrentPos := ACurrentPos;
+  Inherited Init(R2);
+  CurrentPos := ACurrentPos;
 End;
 
 Procedure TAddressDisplay.Draw;
 
 Var
-	DrawBuf : TDrawBuffer;
-	S : String;
-	Param : Longint;
-	Colour : Word;
+  DrawBuf : TDrawBuffer;
+  S : String;
+  Param : Longint;
+  Colour : Word;
 
 Begin
-	Param := Longint(CurrentPos^);
-	If Pref.Base = 0 then
-		FormatStr(S,' $%04x ',Param) else
-		FormatStr(S,' %d 様様',Param);
-	S[0] := #7;
+  Param := Longint(CurrentPos^);
+  If Pref.Base = 0 then
+    FormatStr(S,' $%04x ',Param) else
+    FormatStr(S,' %d 様様',Param);
+  S[0] := #7;
   Colour := GetColor(1);
   MoveStr(DrawBuf,S,Colour);
   WriteLine(0,0,7,1,DrawBuf);
@@ -107,8 +107,8 @@ End;
 Procedure THexWindow.Close;
 
 Begin
-	If Valid(cmClose) then
-  	Hide;
+  If Valid(cmClose) then
+    Hide;
 End;
 
 Procedure THexViewer.HexChangeMemory(HexByte : Char);
@@ -117,8 +117,8 @@ Begin
   HexByte := UpCase(HexByte);
   Byte((Ptr(Seg(PZMem^),Ofs(PZmem^)+CurrentAddress))^) :=
     (Byte((Ptr(Seg(PZMem^),Ofs(PZmem^)+CurrentAddress))^) and
-		(15+(CurrentPos*225))) + ((Pos(HexByte,HexDigits)-1) *
-		((1-CurrentPos)*15+1));
+    (15+(CurrentPos*225))) + ((Pos(HexByte,HexDigits)-1) *
+    ((1-CurrentPos)*15+1));
   DrawByte(CurrentAddress);
   MoveRight;
 End; {of THexViewer.HexChangeMemory}
@@ -142,7 +142,7 @@ Begin
   If (Pos.X > 6) and (Pos.X < 55) and (((Pos.X-7) mod 3) <> 2) then
     Begin
       CurrentAddress := (Word(Pos.Y)+Word(Delta.Y))*16 +
-				(Word(Pos.X)-7) div 3;
+        (Word(Pos.X)-7) div 3;
       CurrentPos := (Pos.X-7) mod 3;
       UseHexView := True;
       UpdateCursor;
@@ -172,7 +172,7 @@ Begin
     If (CurrentAddress>(Word(Delta.Y)+Word(Size.Y))*16-1) then
       Begin
         CurrentAddress := (Word(Delta.Y)+Word(Size.Y)-1)*16 +
-					CurrentAddress mod 16;
+          CurrentAddress mod 16;
         UpdateCursor;
       End;
 End; {of THexViewer.ScrollDraw}
@@ -253,7 +253,7 @@ Begin
     else
       If (((Event.CharCode>#$2F) and (Event.CharCode<#$40)) or
         ((Upcase(Event.CharCode)>#$40) and (Upcase(Event.CharCode)<#$47)))
-				and UseHexView then
+        and UseHexView then
         Begin
            HexChangeMemory(Event.CharCode);
           ClearEvent(Event);
@@ -299,9 +299,9 @@ Begin
     End;
   If UseHexView then
     SetCursor((CurrentAddress-Word(Delta.Y)*16) mod 16 * 3 + 7 +
-			CurrentPos,(CurrentAddress-Word(Delta.Y)*16) div 16) else
+      CurrentPos,(CurrentAddress-Word(Delta.Y)*16) div 16) else
     SetCursor((CurrentAddress-Word(Delta.Y)*16) mod 16 + 56,
-			(CurrentAddress-Word(Delta.Y)*16) div 16);
+      (CurrentAddress-Word(Delta.Y)*16) div 16);
 End; {of THexViewer.UpdateCursor}
 
 Procedure THexViewer.MoveHome;
@@ -378,7 +378,7 @@ Procedure THexViewer.MoveRight;
 
 Begin
   If (CurrentAddress<MemorySize) or ((CurrentAddress = MemorySize) and
-		(CurrentPos = 0) and UseHexView) then
+    (CurrentPos = 0) and UseHexView) then
     If UseHexView then
       Begin
         Inc(CurrentPos);
@@ -459,7 +459,7 @@ Begin
 End; {of THexWindow.Init}
 
 Constructor THexViewer.Init(var Bounds : TRect; AVScroller : PScrollBar;
-	CPZMem : Pointer);
+  CPZMem : Pointer);
 
 Begin
   Inherited Init(Bounds,nil,AVScroller);
@@ -482,7 +482,7 @@ Const
 
 Begin
   S := S + HexDigits[decimal div 16 + 1] + HexDigits[decimal mod 16 + 1]
-		+ ' ';
+    + ' ';
 End; {of AddHexSpace}
 
 Procedure THexViewer.DrawByte(const Address : Word);

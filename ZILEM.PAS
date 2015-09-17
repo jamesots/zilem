@@ -9,8 +9,8 @@ Program ZiLEM;
 
 Uses
   ZTest286, Printer, App, Objects, Views, Dialogs, Menus, Drivers, MsgBox,
-	Memory, ZStdDlg, ZConsts, ZHex, ZDialogs, ZGlobals, ZTerminl, ZEngine,
- 	ZRegDlg, ZWatch, ZBreak, HelpFile;
+  Memory, ZStdDlg, ZConsts, ZHex, ZDialogs, ZGlobals, ZTerminl, ZEngine,
+   ZRegDlg, ZWatch, ZBreak, HelpFile;
 
 Type
   PZilemApp = ^TZilemApp;
@@ -62,25 +62,25 @@ Var
   TheHelpWindow : PHelpWindow;
 
 Const
-	HelpInUse : Boolean = False;
+  HelpInUse : Boolean = False;
 
 Begin
-	Inherited GetEvent(Event);
-			If ((Event.What = evCommand) and ((Event.Command = cmHelp) and
-				not HelpInUse)) then
-      	Begin
-        	HelpInUse := True;
-				  TheHelpStream := New(PDosStream,Init('ZILHELP.HLP',stOpenRead));
-					TheHelpFile := New(PHelpFile, Init(TheHelpStream));
+  Inherited GetEvent(Event);
+      If ((Event.What = evCommand) and ((Event.Command = cmHelp) and
+        not HelpInUse)) then
+        Begin
+          HelpInUse := True;
+          TheHelpStream := New(PDosStream,Init('ZILHELP.HLP',stOpenRead));
+          TheHelpFile := New(PHelpFile, Init(TheHelpStream));
           If TheHelpStream^.Status <> stOk then
-          	Begin
-	            MessageBox(#3'ZILEM.HLP'#13#13#3'can''t be found',nil,mfError or mfOkButton);
-							Dispose(TheHelpFile,Done);
+            Begin
+              MessageBox(#3'ZILEM.HLP'#13#13#3'can''t be found',nil,mfError or mfOkButton);
+              Dispose(TheHelpFile,Done);
             End else
             Begin
-            	TheHelpWindow := New(PHelpWindow,Init(TheHelpFile, 1034));
+              TheHelpWindow := New(PHelpWindow,Init(TheHelpFile, 1034));
               If ValidView(TheHelpWindow) <> nil then
-               	ExecView(TheHelpWindow);
+                 ExecView(TheHelpWindow);
               Dispose(TheHelpWindow,Done);
               ClearEvent(Event);
             End;
@@ -98,8 +98,8 @@ End;
 Procedure TZilemApp.ShowPrintDialog;
 
 Var
-	PrintInfo : Record
-  	Start,
+  PrintInfo : Record
+    Start,
     Finish : LongInt;
     Format : Integer;
   End;
@@ -110,63 +110,63 @@ Var
   s : String;
 
 Begin
-	rewrite(lst);
-	With PrintInfo do
-		Begin
-    	Start := 0;
+  rewrite(lst);
+  With PrintInfo do
+    Begin
+      Start := 0;
       Finish := 0;
       Format := 0;
     End;
   If ExecuteDialog(New(PPrintDialog,Init),@PrintInfo) = cmOk then
-  	Begin
-    	If PrintInfo.Start > PrintInfo.Finish then
-				Begin
-        	Temp := PrintInfo.Start;
+    Begin
+      If PrintInfo.Start > PrintInfo.Finish then
+        Begin
+          Temp := PrintInfo.Start;
           PrintInfo.Start := PrintInfo.Finish;
           PrintInfo.Finish := Temp;
         End;
-    	Case PrintInfo.Format of
-      	0 : For Address := Word(PrintInfo.Start) to Word(PrintInfo.Finish)
-					div 16 do
-							Begin
-              	i := Address*16;
+      Case PrintInfo.Format of
+        0 : For Address := Word(PrintInfo.Start) to Word(PrintInfo.Finish)
+          div 16 do
+              Begin
+                i := Address*16;
                 FormatStr(s,'%04x',i);
                 s := s+' : ';
                 For i := Address*16 to Address*16+15 do
-                	Begin
-                  	c := Char((Ptr(Seg(PZMem^),Ofs(PZmem^)+i))^);
-                  	AddHexSpace(Byte(c),s);
+                  Begin
+                    c := Char((Ptr(Seg(PZMem^),Ofs(PZmem^)+i))^);
+                    AddHexSpace(Byte(c),s);
                   End;
                 s := s+' ';
                 For i := Address*16 to Address*16+15 do
-                	Begin
-                  	c := Char((Ptr(Seg(PZMem^),Ofs(PZmem^)+i))^);
-                  	if c<#32 then
-                    	c := '.';
+                  Begin
+                    c := Char((Ptr(Seg(PZMem^),Ofs(PZmem^)+i))^);
+                    if c<#32 then
+                      c := '.';
                     s := s+c;
                   End;
                 Writeln(lst,s);
               End;
-      	1 : For Address := PrintInfo.Start to PrintInfo.Finish do
-             	Begin
-               	c := Char((Ptr(Seg(PZMem^),Ofs(PZmem^)+Address))^);
+        1 : For Address := PrintInfo.Start to PrintInfo.Finish do
+               Begin
+                 c := Char((Ptr(Seg(PZMem^),Ofs(PZmem^)+Address))^);
                 If ((Pref.Prefs and 2) = 0) and (c<#32) then
-                 	c := '.';
+                   c := '.';
                 Write(lst,c);
               End;
-      	2 : Begin
+        2 : Begin
               Address := PrintInfo.Start;
               Repeat
-              	FormatStr(s,'%04x',Address);
+                FormatStr(s,'%04x',Address);
                 Write(lst,s,' : ');
                 i := OpCode(PZMem,Address,s);
                 Address := Address+i;
                 Writeln(lst,s);
               Until Address>PrintInfo.Finish;
-        		End;
+            End;
       End;
       Close(lst);
-		End;
+    End;
 End; {of TZiLEMApp.ShowPrintDialog}
 
 Procedure TZilemApp.UpdateViews(ACommand : Word);
@@ -181,53 +181,53 @@ End; {of TZiLEMApp.UpdateViews}
 Procedure TZilemApp.DoInterrupt;
 
 Var
-	IntInfo : Longint;
+  IntInfo : Longint;
   Switch : Boolean;
 
 Begin
-	If Engine^.ORegs.IFF1 then
-		Begin
-    	Case Engine^.ORegs.IMode of
-      	0 : Begin
-        			If Terminal^.Mode = tmZ80 then
-              	Begin
-	              	Terminal^.ZiLEMScreen;
+  If Engine^.ORegs.IFF1 then
+    Begin
+      Case Engine^.ORegs.IMode of
+        0 : Begin
+              If Terminal^.Mode = tmZ80 then
+                Begin
+                  Terminal^.ZiLEMScreen;
                   Switch := True;
                 End else
                 Switch := False;
-        			IntInfo := 0;
+              IntInfo := 0;
               Dec(Engine^.IRegs.PC);
-							ExecuteDialog(New(PInterruptDialog,Init),@IntInfo);
+              ExecuteDialog(New(PInterruptDialog,Init),@IntInfo);
               If Switch then
-              	Terminal^.Z80Screen;
-							Engine^.Execute(Byte(IntInfo));
-        		End;
-				1 : Engine^.DoCall($38);
+                Terminal^.Z80Screen;
+              Engine^.Execute(Byte(IntInfo));
+            End;
+        1 : Engine^.DoCall($38);
         2 : Begin
-        			If Terminal^.Mode = tmZ80 then
-              	Begin
-	              	Terminal^.ZiLEMScreen;
+              If Terminal^.Mode = tmZ80 then
+                Begin
+                  Terminal^.ZiLEMScreen;
                   Switch := True;
                 End else
                 Switch := False;
-        			IntInfo := 0;
-							ExecuteDialog(New(PInterruptDialog,Init),@IntInfo);
+              IntInfo := 0;
+              ExecuteDialog(New(PInterruptDialog,Init),@IntInfo);
               If Switch then
-              	Terminal^.Z80Screen;
-							Engine^.DoCall((Engine^.ORegs.I * $100) +
-								(Byte(IntInfo) and ($FF-1)));
-        		End;
+                Terminal^.Z80Screen;
+              Engine^.DoCall((Engine^.ORegs.I * $100) +
+                (Byte(IntInfo) and ($FF-1)));
+            End;
       End;
-			Engine^.ORegs.IFF1 := False;
-			Engine^.ORegs.IFF2 := False;
-		End;
+      Engine^.ORegs.IFF1 := False;
+      Engine^.ORegs.IFF2 := False;
+    End;
 End; {of TZiLEMApp.DoInterrupt}
 
 Procedure TZilemApp.DoNMI;
 
 Begin
-	Engine^.IRegs.PC := $66;
-	Engine^.ORegs.IFF1 := False;
+  Engine^.IRegs.PC := $66;
+  Engine^.ORegs.IFF1 := False;
 End; {of TZiLEMApp.DoNMI}
 
 Procedure TZilemApp.ShowReplaceDialog;
@@ -300,7 +300,7 @@ Begin
         Found := False;
         Repeat
           If Char((Ptr(Seg(PZMem^),Ofs(PZmem^)+i))^)=FindString[Offset]
-						then
+            then
             Begin
               Inc(Offset);
               If Offset>Length(FindString) then
@@ -323,7 +323,7 @@ Begin
             mfError or mfOkButton);
         If Replace then
           For i := CurrentAddress-Length(FindString) to CurrentAddress-1
-						do
+            do
             Char((Ptr(Seg(PZMem^),Ofs(PZmem^)+i))^) :=
               ReplaceString[Length(FindString)-CurrentAddress+Succ(i)];
             Message(HexWindow,evCommand,cmRedrawMemory,@Self);
@@ -349,7 +349,7 @@ Begin
       For i := PasteInfo.Address to Finish do
         Byte((Ptr(Seg(PZMem^),Ofs(PZmem^)+i))^) :=
           Byte((Ptr(Seg(Clip.Data^),Ofs(Clip.Data^)+i-
-						PasteInfo.Address))^);
+            PasteInfo.Address))^);
       If Clip.Big and (PasteInfo.Address = 0) then
         Byte((Ptr(Seg(PZMem^),Ofs(PZmem^)+$FFFF))^) := Clip.LastByte;
       Message(HexWindow,evCommand,cmRedrawMemory,@Self);
@@ -384,24 +384,24 @@ Begin
         End;
       Clip.Size := Finish-Start+1;
       If Clip.Size = 0 then
-      	Begin
-	      	Clip.LastByte := Byte((Ptr(Seg(PZMem^),Ofs(PZmem^)+$FFFF))^);
+        Begin
+          Clip.LastByte := Byte((Ptr(Seg(PZMem^),Ofs(PZmem^)+$FFFF))^);
           Clip.Big := True;
           Dec(Finish);
           Dec(Clip.Size);
         End else
         Clip.Big := False;
       If (MaxAvail < Clip.Size) then
-      	Begin
-	      	MessageBox(#3'Not enough memory to'#13#13#3'copy this much',
-	        	nil,mfError or mfOkButton);
+        Begin
+          MessageBox(#3'Not enough memory to'#13#13#3'copy this much',
+            nil,mfError or mfOkButton);
           GetMem(Clip.Data,0);
         End else
         Begin
-		      GetMem(Clip.Data,Clip.Size);
-		      For i := Start to Finish do
-		        Byte((Ptr(Seg(Clip.Data^),Ofs(Clip.Data^)+i-Start))^) :=
-		          Byte((Ptr(Seg(PZMem^),Ofs(PZmem^)+i))^);
+          GetMem(Clip.Data,Clip.Size);
+          For i := Start to Finish do
+            Byte((Ptr(Seg(Clip.Data^),Ofs(Clip.Data^)+i-Start))^) :=
+              Byte((Ptr(Seg(PZMem^),Ofs(PZmem^)+i))^);
         End;
     End;
 End; {of TZiLEMApp.ShowCopyDialog}
@@ -439,15 +439,15 @@ Var
   SaveDialog : PSaveDialog;
 
 Begin
-	SaveInfo.SaveFromAddress := Longint(Address.Start);
+  SaveInfo.SaveFromAddress := Longint(Address.Start);
   SaveInfo.SaveToAddress := Longint(Address.Finish);
   SaveDialog := New(PSaveDialog,Init('*.z80'));
   SaveDialog^.PSaveFromInputLine^.SetData(SaveInfo.SaveFromAddress);
   SaveDialog^.PSaveToInputLine^.SetData(SaveInfo.SaveToAddress);
   If ExecView(SaveDialog) = cmFileOpen
-		then
+    then
     Begin
-    	SaveDialog^.PSaveFromInputLine^.GetData(SaveInfo.SaveFromAddress);
+      SaveDialog^.PSaveFromInputLine^.GetData(SaveInfo.SaveFromAddress);
       SaveDialog^.PSaveToInputLine^.GetData(SaveInfo.SaveToAddress);
       SaveInfo.FileName := SaveDialog^.Directory^+SaveDialog^.FileName^.Data^;
       PSaveStream := New(PBufStream,Init(SaveInfo.FileName,stCreate,512));
@@ -487,16 +487,16 @@ Var
   LoadDialog : PLoadDialog;
 
 Begin
-	LoadInfo.LoadAddress := Longint(CurrentAddress);
+  LoadInfo.LoadAddress := Longint(CurrentAddress);
   LoadDialog := New(PLoadDialog,Init('*.z80'));
   LoadDialog^.PLoadInputLine^.SetData(LoadInfo.LoadAddress);
   If ExecView(LoadDialog) = cmFileOpen
-		then
+    then
     Begin
-			LoadDialog^.PLoadInputLine^.GetData(LoadAt);
+      LoadDialog^.PLoadInputLine^.GetData(LoadAt);
       LoadInfo.FileName := LoadDialog^.Directory^+LoadDialog^.FileName^.Data^;
       PLoadStream := New(PBufStream,Init(LoadInfo.FileName,stOpenRead,
-				512));
+        512));
       FileSize := PLoadStream^.GetSize;
       GetMem(PLoadBuf,1);
       If (LongInt(LoadAt)+FileSize)>MemorySize then
@@ -515,7 +515,7 @@ Begin
       Message(RegistersDialog,evCommand,cmRedrawCode,nil);
       Message(CodeWindow,evCommand,cmRedrawCode,nil);
     End;
-	Dispose(LoadDialog,Done);
+  Dispose(LoadDialog,Done);
 End; {of TZiLEMApp.ShowLoadDialog}
 
 Procedure TZilemApp.ShowFillDialog;
@@ -570,13 +570,13 @@ Begin
   GotoInfo.Address := Longint(CurrentAddress);
   ExecuteDialog(New(PGotoDialog,Init),@GotoInfo);
   If @Desktop^.Current^ = @HexWindow^ then
-  	Begin
-		  CurrentAddress := Word(GotoInfo.Address);
-		  CurrentPos := 0;
+    Begin
+      CurrentAddress := Word(GotoInfo.Address);
+      CurrentPos := 0;
     End else
   If @Desktop^.Current^ = @CodeWindow^ then
-  	Begin
-    	CodeWindow^.Interior^.StartAt := Word(GotoInfo.Address);
+    Begin
+      CodeWindow^.Interior^.StartAt := Word(GotoInfo.Address);
       CodeWindow^.Interior^.CursorAt := Word(GotoInfo.Address);
       CodeWindow^.Interior^.Cursor.Y := 0;
       UpdateViews(cmRedrawCode);
@@ -600,10 +600,10 @@ Begin
   GetMem(PZMem,$FFFF);
   GetMem(SafetyByte,1);
   If PZMem = nil then
-	  Begin
-    	SetVideoMode(StartupMode);
+    Begin
+      SetVideoMode(StartupMode);
       ClearScreen;
-		  InLine($B4/$01/$B9/$07/$06/$CD/$10);
+      InLine($B4/$01/$B9/$07/$06/$CD/$10);
       PrintStr('Not enought memory to run ZiLEM');
       Halt(1);
     End;
@@ -685,13 +685,13 @@ Begin
       StdStatusKeys(
       nil)),
     NewStatusDef(hcWatchWindow,hcWatchWindow,
-			NewStatusKey('~F1~ Help',kbF1,cmHelp,
+      NewStatusKey('~F1~ Help',kbF1,cmHelp,
       NewStatusKey('~F7~ Trace',kbF7,cmTrace,
       NewStatusKey('~F8~ Step',kbF8,cmStep,
       NewStatusKey('~Ins~ Add',kbIns,cmAddWatch,
       NewStatusKey('~Del~ Delete',kbDel,cmDeleteWatch,
       StdStatusKeys(
-	    nil)))))),
+      nil)))))),
     NewStatusDef(hcCodeWindow,hcCodeWindow,
       NewStatusKey('~F1~ Help',kbF1,cmHelp,
       NewStatusKey('~F2~ Save as',kbF2,cmSaveAs,
@@ -769,7 +769,7 @@ Begin
       NewLine(
       NewItem('~A~dd watch...','Ctrl+F7',kbCtrlF7,cmAddWatch,hcAddWatch,
       NewItem('Add break~p~oint...','',kbNoKey,cmAddBreakpoint,
-				hcAddBreakpoint,
+        hcAddBreakpoint,
       nil)))))))))
     ),
     NewSubMenu('~O~ptions',hcOptions,NewMenu(
@@ -784,7 +784,7 @@ Begin
     ),
     NewSubMenu('~W~indow',hcWindow,NewMenu(
       NewItem('~R~edraw Code','Shift+F5',kbShiftF5,cmRedrawAll,
-				hcRedrawCode,
+        hcRedrawCode,
       NewItem('~S~ize/Move','Ctrl+F5',kbCtrlF5,cmResize,hcResize,
       NewItem('~Z~oom','F5',kbF5,cmZoom,hcZoom,
       NewItem('~N~ext','F6',kbF6,cmNext,hcNext,
@@ -812,9 +812,9 @@ Procedure TZilemApp.Step;
 Begin
   If ((Byte((Ptr(Seg(PZMem^),Ofs(PZmem^)+Engine^.IRegs.PC))^) and $C4) = $C4) {or
     ((Byte((Ptr(Seg(PZMem^),Ofs(PZmem^)+Engine^.IRegs.PC))^)
-    	and $64) = $64)} then
+      and $64) = $64)} then
     Begin
-			BreakpointCollection^.Create(Engine^.IRegs.PC+3,0);
+      BreakpointCollection^.Create(Engine^.IRegs.PC+3,0);
       RunProgram;
     End else
     Begin
@@ -826,41 +826,41 @@ End; {of TZiLEMApp.Step}
 Procedure TZilemApp.RunProgram;
 
 Label
-	RunHere;
+  RunHere;
 
 Var
   Result : Byte;
 
 Begin
-	CtrlBreakHit := False;
+  CtrlBreakHit := False;
   Terminal^.Z80Screen;
-	Repeat
-	  Repeat
-	    Result := Engine^.Execute(Byte((Ptr(Seg(PZMem^),Ofs(PZmem^)+Engine^.IRegs.PC))^));
-	  Until Result <> exOk;
-	  Case Result of
-	  	exInt : DoInterrupt;
-	  	exNMI : DoNMI;
-	  	exHalt : If BreakpointCollection^.BreakAt(Engine^.IRegs.PC-1,Result) then
-	  		Begin
-	  			Dec(Engine^.IRegs.PC);
-	  			Engine^.Execute(BreakpointCollection^.GetOld(Engine^.IRegs.PC-1));
-	  		End else
-  			Dec(Engine^.IRegs.PC);
-	  End;
+  Repeat
+    Repeat
+      Result := Engine^.Execute(Byte((Ptr(Seg(PZMem^),Ofs(PZmem^)+Engine^.IRegs.PC))^));
+    Until Result <> exOk;
+    Case Result of
+      exInt : DoInterrupt;
+      exNMI : DoNMI;
+      exHalt : If BreakpointCollection^.BreakAt(Engine^.IRegs.PC-1,Result) then
+        Begin
+          Dec(Engine^.IRegs.PC);
+          Engine^.Execute(BreakpointCollection^.GetOld(Engine^.IRegs.PC-1));
+        End else
+        Dec(Engine^.IRegs.PC);
+    End;
   Until (Result in [exHalt,exBreak,exStop,exUserHalt]);
   Terminal^.ZiLEMScreen;
   UpdateViews(cmChangedPC);
   Case Result of
     exStop : MessageBox(#3'Breakpoint encountered'#13#13+
-    	#3'and cleared',nil,mfInformation or mfOkButton);
+      #3'and cleared',nil,mfInformation or mfOkButton);
     exBreak : MessageBox(#3'Ctrl-Break Pressed',nil,mfInformation or
       mfOkButton);
     exUserHalt :
-			Begin
-				Inc(Engine^.IRegs.PC);
-		    MessageBox(#3'Breakpoint encountered',nil,mfInformation or
-		      mfOkButton);
+      Begin
+        Inc(Engine^.IRegs.PC);
+        MessageBox(#3'Breakpoint encountered',nil,mfInformation or
+          mfOkButton);
       End;
   End;
 End; {of TZiLEMApp.RunProgram}
@@ -868,7 +868,7 @@ End; {of TZiLEMApp.RunProgram}
 Procedure TZilemApp.HandleEvent(var Event : TEvent);
 
 Var
-	Dummy : Byte;
+  Dummy : Byte;
 
 Begin
   Inherited HandleEvent(Event);
@@ -954,7 +954,7 @@ Begin
           ClearEvent(Event);
         end;
       cmIndex,cmTopic,cmPreviousTopic,cmUsing,cmZ80,cmColours,
-				cmTerminal :
+        cmTerminal :
         begin
           MessageBox(#3'Not available in'#13#13#3'this version',
             nil,mfWarning or mfOkButton);
@@ -973,94 +973,94 @@ Begin
       cmTrace :
         begin
           If Engine^.Execute(Byte((Ptr(Seg(PZMem^),Ofs(PZmem^)+Engine^.IRegs.PC))^)) = exHalt then
-          	If BreakpointCollection^.BreakAt(Engine^.IRegs.PC-1,Dummy) or
-							(Dummy = exUserHalt) then
-            	Begin
-              	MessageBox(#3'Breakpoint encountered',nil,mfInformation or
-						      mfOkButton);
+            If BreakpointCollection^.BreakAt(Engine^.IRegs.PC-1,Dummy) or
+              (Dummy = exUserHalt) then
+              Begin
+                MessageBox(#3'Breakpoint encountered',nil,mfInformation or
+                  mfOkButton);
               End;
           UpdateViews(cmChangedPC);
           ClearEvent(Event);
         end;
       cmRedrawCode :
         begin
-        	UpdateViews(cmRedrawCode);
+          UpdateViews(cmRedrawCode);
           ClearEvent(Event);
         end;
       cmRedrawAll :
         begin
-        	UpdateViews(cmRedrawCode);
+          UpdateViews(cmRedrawCode);
           ClearEvent(Event);
         end;
       cmRedrawMemory :
-      	begin
-        	Message(WatchWindow,evCommand,cmRedrawMemory,nil);
+        begin
+          Message(WatchWindow,evCommand,cmRedrawMemory,nil);
           ClearEvent(Event);
         end;
       cmWatch :
-      	begin
-        	WatchWindow^.Show;
-        	WatchWindow^.Select;
+        begin
+          WatchWindow^.Show;
+          WatchWindow^.Select;
           ClearEvent(Event);
         end;
       cmAddWatch :
-      	begin
-        	WatchWindow^.Show;
-        	WatchWindow^.Select;
+        begin
+          WatchWindow^.Show;
+          WatchWindow^.Select;
           Message(WatchWindow,evCommand,cmAddWatch,nil);
           ClearEvent(Event);
         end;
       cmPrint :
-      	begin
-        	ShowPrintDialog;
+        begin
+          ShowPrintDialog;
           ClearEvent(Event);
         end;
       cmInterrupt :
-      	begin
-        	DoInterrupt;
+        begin
+          DoInterrupt;
           UpdateViews(cmChangedPC);
           ClearEvent(Event);
         end;
       cmNMI :
-      	begin
-        	DoNMI;
+        begin
+          DoNMI;
           UpdateViews(cmChangedPC);
           ClearEvent(Event);
         end;
       cmCode :
-      	begin
-        	CodeWindow^.Show;
+        begin
+          CodeWindow^.Show;
           CodeWindow^.Select;
           ClearEvent(Event);
         end;
       cmShowRegisters :
-      	begin
-        	RegistersDialog^.Show;
+        begin
+          RegistersDialog^.Show;
           RegistersDialog^.Select;
           ClearEvent(Event);
         end;
-    	cmShowMemory :
-      	begin
-        	HexWindow^.Show;
+      cmShowMemory :
+        begin
+          HexWindow^.Show;
           HexWindow^.Select;
           ClearEvent(Event);
         end;
       cmAddBreakpoint :
-      	begin
-				  ExecuteDialog(New(PAddBreakpointDialog,Init(BreakpointCollection,
-				  	CurrentAddress)),nil);
+        begin
+          ExecuteDialog(New(PAddBreakpointDialog,Init(BreakpointCollection,
+            CurrentAddress)),nil);
           UpdateViews(cmRedrawCode);
-				 	ClearEvent(Event);
-				end;
-    	cmBreakpoints :
-      	begin
-        	ExecuteDialog(New(PBreakpointDialog,Init(BreakpointCollection)),nil);
+           ClearEvent(Event);
+        end;
+      cmBreakpoints :
+        begin
+          ExecuteDialog(New(PBreakpointDialog,Init(BreakpointCollection)),nil);
           UpdateViews(cmRedrawCode);
           ClearEvent(Event);
         end;
       cmGotoCursor :
-      	begin
-        	CodeWindow^.Interior^.ChangePC;
+        begin
+          CodeWindow^.Interior^.ChangePC;
           ClearEvent(Event);
         end;
     End;

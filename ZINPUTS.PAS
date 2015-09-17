@@ -27,7 +27,7 @@ Type
   PStringInputLine = ^TStringInputLine;
   TStringInputLine = object(TInputLine)
     Constructor Init(var Bounds : TRect; AMaxLen : Integer;
-			AHelpCtx : Word);
+      AHelpCtx : Word);
   End;
 
 Implementation

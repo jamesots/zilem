@@ -437,35 +437,35 @@ end;
 
 function Scan(var P; Offset, Size: Integer; C: Char): Integer; assembler;
 asm
-	CLD
-	LES	DI,P
-        ADD	DI,&Offset
-        MOV	DX,Size
-        SUB	DX,&Offset
-        OR	DH,DH
-        JZ	@@1
-        MOV	DX,256
-@@1:    MOV	CX,DX
-	MOV	AL, C
-        REPNE	SCASB
-	SUB	CX,DX
-        NEG	CX
-        XCHG	AX,CX
+  CLD
+  LES  DI,P
+        ADD  DI,&Offset
+        MOV  DX,Size
+        SUB  DX,&Offset
+        OR  DH,DH
+        JZ  @@1
+        MOV  DX,256
+@@1:    MOV  CX,DX
+  MOV  AL, C
+        REPNE  SCASB
+  SUB  CX,DX
+        NEG  CX
+        XCHG  AX,CX
 end;
 
 procedure TextToLine(var Text; Offset, Length: Integer; var Line: String);
   assembler;
 asm
-	CLD
-	PUSH	DS
-	LDS	SI,Text
-        ADD	SI,&Offset
+  CLD
+  PUSH  DS
+  LDS  SI,Text
+        ADD  SI,&Offset
         LES     DI,Line
-        MOV	AX,Length
+        MOV  AX,Length
         STOSB
-        XCHG	AX,CX
-        REP	MOVSB
-        POP	DS
+        XCHG  AX,CX
+        REP  MOVSB
+        POP  DS
 end;
 
 begin

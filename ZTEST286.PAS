@@ -38,7 +38,7 @@ asm
 end; {of Is286Able}
 
 Const
-	SerialNumber : String[5] = 'Z0001';
+  SerialNumber : String[5] = 'Z0001';
 
 Begin
   If not Is286Able then

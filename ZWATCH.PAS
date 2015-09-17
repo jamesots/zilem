@@ -11,13 +11,13 @@ Interface
 
 Uses
   App, Objects, Views, Drivers, Dialogs, ZEngine, ZGlobals, ZHex, ZConsts,
-	ZInputs;
+  ZInputs;
 
 Type
   PInsertWatchDialog = ^TInsertWatchDialog;
   TInsertWatchDialog = Object(TDialog)
-  	PKindInputLine : PAddressInputLine;
-	  PKindRadio : PRadioButtons;
+    PKindInputLine : PAddressInputLine;
+    PKindRadio : PRadioButtons;
     Constructor Init;
   End;
 
@@ -35,7 +35,7 @@ Type
     Engine : PEngine;
     Watches : PCollection;
     Constructor Init(var Bounds : TRect; AVScroller : PScrollBar;
-    	CPZMem : Pointer; AnEngine : PEngine);
+      CPZMem : Pointer; AnEngine : PEngine);
     Procedure Draw; virtual;
     Procedure HandleEvent(var Event : TEvent); virtual;
     Procedure MoveUp;
@@ -44,14 +44,14 @@ Type
     Procedure RemoveWatch;
     Procedure ScrollDraw; virtual;
     Procedure ChangeBounds(Var Bounds : TRect); virtual;
-		Function ChangedCursor(GlobalPos : TPoint) : Boolean;
+    Function ChangedCursor(GlobalPos : TPoint) : Boolean;
   End;
 
   PWatchWindow = ^TWatchWindow;
   TWatchWindow = Object(TWindow)
     Interior : PWatchViewer;
     Constructor Init(var Bounds : TRect; CPZMem : Pointer;
-			AnEngine : PEngine);
+      AnEngine : PEngine);
     Procedure SizeLimits(var Min, Max : TPoint); virtual;
     Procedure HandleEvent(var Event : TEvent); virtual;
     Procedure Close; virtual;
@@ -62,14 +62,14 @@ Implementation
 Procedure TWatchWindow.Close;
 
 Var
-	R : TRect;
+  R : TRect;
 
 Begin
-	If Valid(cmClose) then
-  	Begin
-    	While Interior^.Watches^.Count > 0 do
-      	Interior^.RemoveWatch;
-	  	Hide;
+  If Valid(cmClose) then
+    Begin
+      While Interior^.Watches^.Count > 0 do
+        Interior^.RemoveWatch;
+      Hide;
       R.A.X := 0;
       R.A.Y := Owner^.Size.Y - Owner^.Size.Y div 4 - 1;
       R.B.X := 75;
@@ -134,14 +134,14 @@ Begin
 End; {of TWatchWindow.SizeLimits}
 
 Constructor TWatchWindow.Init(var Bounds : TRect; CPZMem : Pointer;
-	AnEngine : PEngine);
+  AnEngine : PEngine);
 
 Var
   R : TRect;
   ScrollBar : PScrollBar;
 
 Begin
-	Bounds.B.X := Bounds.A.X+75;
+  Bounds.B.X := Bounds.A.X+75;
   Inherited Init(Bounds,'Watches',4);
   HelpCtx := hcWatchWindow;
   ScrollBar := StandardScrollBar(sbVertical);
@@ -153,7 +153,7 @@ Begin
 End; {of TWatchWindow.Init}
 
 Constructor TWatchViewer.Init(var Bounds : TRect; AVScroller : PScrollBar;
-	CPZMem : Pointer; AnEngine : PEngine);
+  CPZMem : Pointer; AnEngine : PEngine);
 
 Begin
   Inherited Init(Bounds,nil,AVScroller);
@@ -187,7 +187,7 @@ Begin
         Colour := GetColor(1);
       If (Y+Delta.Y) < Watches^.Count then
         Begin
-        	APtr := Watches^.At(Y+Delta.Y);
+          APtr := Watches^.At(Y+Delta.Y);
           If PWatchItem(APtr)^.Kind = wtAddress then
             I := PWatchItem(APtr)^.Address else
             I := PWatchItem(APtr)^.Register^;
@@ -232,7 +232,7 @@ Begin
   Dec(Cursor.Y);
   If Cursor.Y<0 then
     Begin
-    	Cursor.Y := 0;
+      Cursor.Y := 0;
       Dec(Delta.Y);
       If Delta.Y<0 then
         Delta.Y := 0 else
@@ -259,32 +259,32 @@ End; {of TWatchViewer.MoveDown}
 Procedure TWatchViewer.RemoveWatch;
 
 Begin
-	If (Cursor.Y + Delta.Y) < Watches^.Count then
-  	Begin
-			Watches^.Free(Watches^.At(Cursor.Y+Delta.Y));
+  If (Cursor.Y + Delta.Y) < Watches^.Count then
+    Begin
+      Watches^.Free(Watches^.At(Cursor.Y+Delta.Y));
       If Watches^.Count>=Pred(Size.Y) then
-      	Begin
-        	Dec(Limit.Y);
+        Begin
+          Dec(Limit.Y);
           SetLimit(Limit.X,Limit.Y);
         End;
-			SetLimit(Limit.X,Limit.Y);
+      SetLimit(Limit.X,Limit.Y);
       VScrollBar^.SetRange(0,Watches^.Count);
-			DrawView;
+      DrawView;
     End;
 End; {of TWatchViewer.RemoveWatch}
 
 Procedure TWatchViewer.AddWatch;
 
 Const
-	RegNames : Array[2..8] of String [2] =
-  	('BC','DE','HL','IX','IY','SP','PC');
+  RegNames : Array[2..8] of String [2] =
+    ('BC','DE','HL','IX','IY','SP','PC');
 
 Var
-	WatchInfo : Record
-		Address : Word;
-		Kind : Integer;
-	End;
-	NewWatch : PWatchItem;
+  WatchInfo : Record
+    Address : Word;
+    Kind : Integer;
+  End;
+  NewWatch : PWatchItem;
   InsertDialog : PInsertWatchDialog;
   RegName : String[2];
 
@@ -292,34 +292,34 @@ Begin
   InsertDialog := New(PInsertWatchDialog,Init);
   InsertDialog^.PKindInputLine^.SetData(CurrentAddress);
   InsertDialog^.PKindRadio^.Value := Pred(wtAddress);
-	If Owner^.Owner^.ExecView(InsertDialog) = cmOk then
-		Begin
-    	InsertDialog^.PKindInputLine^.GetData(WatchInfo.Address);
+  If Owner^.Owner^.ExecView(InsertDialog) = cmOk then
+    Begin
+      InsertDialog^.PKindInputLine^.GetData(WatchInfo.Address);
       WatchInfo.Kind := Succ(InsertDialog^.PKindRadio^.Value);
-			NewWatch := New(PWatchItem,Init);
-			NewWatch^.Kind := WatchInfo.Kind;
-			If WatchInfo.Kind =	wtAddress then
-				NewWatch^.Address := WatchInfo.Address else
+      NewWatch := New(PWatchItem,Init);
+      NewWatch^.Kind := WatchInfo.Kind;
+      If WatchInfo.Kind =  wtAddress then
+        NewWatch^.Address := WatchInfo.Address else
         Begin
-					NewWatch^.RegName := RegNames[WatchInfo.Kind];
+          NewWatch^.RegName := RegNames[WatchInfo.Kind];
           Case WatchInfo.Kind of
-          	wtBC : NewWatch^.Register := @Engine^.ZRegs.BC;
+            wtBC : NewWatch^.Register := @Engine^.ZRegs.BC;
             wtDE : NewWatch^.Register := @Engine^.ZRegs.DE;
-						wtHL : NewWatch^.Register := @Engine^.ZRegs.HL;
+            wtHL : NewWatch^.Register := @Engine^.ZRegs.HL;
             wtIX : NewWatch^.Register := @Engine^.IRegs.IX;
             wtIY : NewWatch^.Register := @Engine^.IRegs.IY;
             wtSP : NewWatch^.Register := @Engine^.IRegs.SP;
             wtPC : NewWatch^.Register := @Engine^.IRegs.PC;
           End;
-				End;
+        End;
       Watches^.AtInsert(Delta.Y+Cursor.Y,NewWatch);
       If Watches^.Count>=Size.Y then
-      	Begin
-					Inc(Limit.Y);
-					SetLimit(Limit.X,Limit.Y);
+        Begin
+          Inc(Limit.Y);
+          SetLimit(Limit.X,Limit.Y);
         End;
       VScrollBar^.SetRange(0,Watches^.Count);
-		End;
+    End;
   Dispose(InsertDialog,Done);
   DrawView;
 End; {of TWatchViewer.AddWatch}
@@ -342,7 +342,7 @@ Begin
         End;
     End;
   If Event.What = evCommand then
-		Case Event.Command of
+    Case Event.Command of
       cmAddWatch :
         Begin
           AddWatch;
@@ -354,9 +354,9 @@ Begin
           ClearEvent(Event);
         End;
     End;
-	If Event.What = evMouseDown then
-		If ChangedCursor(Event.Where) then
-    	ClearEvent(Event);
+  If Event.What = evMouseDown then
+    If ChangedCursor(Event.Where) then
+      ClearEvent(Event);
 End; {of TWatchViewer.HandleEvent}
 
 Function TWatchViewer.ChangedCursor(GlobalPos : TPoint) : Boolean;
@@ -367,10 +367,10 @@ Var
 Begin
   MakeLocal(GlobalPos,Pos);
   If MouseInView(GlobalPos) and ((Pos.Y+Delta.Y) <= (Watches^.Count)) then
-  	Begin
-	   	Cursor.Y := Pos.Y;
+    Begin
+       Cursor.Y := Pos.Y;
       VScrollBar^.SetValue(Cursor.Y+Delta.Y);
-    	DrawView;
+      DrawView;
     End;
 End; {of TWatchViewer.ChangedCursor}
 
@@ -379,8 +379,8 @@ Procedure TWatchWindow.HandleEvent(var Event : TEvent);
 Begin
   Inherited HandleEvent(Event);
   If (Event.What = evCommand) and (Event.Command = cmRedrawMemory) then
-		Begin
-    	ReDraw;
+    Begin
+      ReDraw;
       ClearEvent(Event);
     End;
 End; {of TWatchWindow.HandleEvent}
@@ -388,24 +388,24 @@ End; {of TWatchWindow.HandleEvent}
 Procedure TWatchViewer.ScrollDraw;
 
 Begin
-	If VScrollBar^.Value = Succ(Cursor.Y+Delta.Y) then
-		If Cursor.Y=Pred(Size.Y) then
-     	Inc(Delta.Y) else
+  If VScrollBar^.Value = Succ(Cursor.Y+Delta.Y) then
+    If Cursor.Y=Pred(Size.Y) then
+       Inc(Delta.Y) else
       Inc(Cursor.Y);
-	If VScrollBar^.Value = Pred(Cursor.Y+Delta.Y) then
-   	If Cursor.Y=0 then
-    	Dec(Delta.Y) else
+  If VScrollBar^.Value = Pred(Cursor.Y+Delta.Y) then
+     If Cursor.Y=0 then
+      Dec(Delta.Y) else
       Dec(Cursor.Y) else
-   	If VScrollBar^.Value <> (Cursor.Y+Delta.Y) then
-     	Begin
-       	If VScrollBar^.Value-Delta.Y < 0 then
-         	Begin
-          	Cursor.Y := 0;
+     If VScrollBar^.Value <> (Cursor.Y+Delta.Y) then
+       Begin
+         If VScrollBar^.Value-Delta.Y < 0 then
+           Begin
+            Cursor.Y := 0;
             Delta.Y := VScrollBar^.Value;
           End else
         If VScrollBar^.Value-Delta.Y > Pred(Size.Y) then
-         	Begin
-           	Cursor.Y := Pred(Size.Y);
+           Begin
+             Cursor.Y := Pred(Size.Y);
             Delta.Y := VScrollBar^.Value-Pred(Size.Y);
           End else
           Cursor.Y := VScrollBar^.Value;
@@ -416,9 +416,9 @@ End; {of TWatchViewer.ScrollDraw}
 Procedure TWatchViewer.ChangeBounds(var Bounds : TRect);
 
 Begin
-	SetBounds(Bounds);
+  SetBounds(Bounds);
   If Cursor.Y>Pred(Size.Y) then
-  	Cursor.Y := Pred(Size.Y);
+    Cursor.Y := Pred(Size.Y);
   VScrollBar^.SetValue(Cursor.Y+Delta.Y);
   VScrollBar^.DrawView;
   DrawView;

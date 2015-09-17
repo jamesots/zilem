@@ -1,7 +1,7 @@
 Unit Calc;
 
 { Calculator unit - 32 bit integers only    }
-{ (c) 1993 James Ots												}
+{ (c) 1993 James Ots                        }
 { Latest update - 18/11/93                  }
 
 {$N+ E+}
@@ -48,7 +48,7 @@ Const
   cmNot = 10015;
 
   {Dual operand operators in order of precedence.
-	 Digit two shows the precedence for the operator.}
+   Digit two shows the precedence for the operator.}
 
   cmMultiply = 11002;
   cmDivide = 11003;
@@ -72,8 +72,8 @@ Type
   PCalc = ^TCalc;
   TCalc = Object(TDialog)
     Constructor Init(P : TPoint);
-	private
-  	TextPalette : char;
+  private
+    TextPalette : char;
     DisplayStr, Mode : PString;
     DisplayNum : Longint;
     NumberDisplay, ModeDisplay : PParamText;
@@ -139,7 +139,7 @@ Begin
   Insert(NumberDisplay);
   UpdateDisplay;
 
-	PPaletteText := NumberDisplay^.GetPalette;
+  PPaletteText := NumberDisplay^.GetPalette;
   PPaletteText^ := #4;
 
   {Initialize Register stack}
@@ -293,7 +293,7 @@ End;
 Procedure TCalc.BNot;
 
 Begin
-	Entered := True;
+  Entered := True;
   DisplayNum := Not(DisplayNum);
   UpdateDisplay;
 End;
@@ -356,14 +356,14 @@ End;
 Procedure TCalc.MemoryStore;
 
 Begin
-	Entered := True;
-	CalcMem := DisplayNum;
+  Entered := True;
+  CalcMem := DisplayNum;
 End;
 
 Procedure TCalc.MemoryRecall;
 
 Begin
-	Entered := True;
+  Entered := True;
   DisplayNum := CalcMem;
   UpdateDisplay;
 End;
@@ -371,7 +371,7 @@ End;
 Procedure TCalc.Operate(Operator : integer);
 
 Begin
-	Entered := True;
+  Entered := True;
   Inc(RegSize);
   Reg[RegSize].Operator := Operator;
   Reg[RegSize].Number := DisplayNum;
@@ -382,30 +382,30 @@ End;
 Procedure TCalc.Calculate(Operator : integer);
 
 Var
-	Prec : integer;
+  Prec : integer;
 
 Begin
-	Prec := Operator div 1000;
-	While ((Reg[RegSize-1].Operator div 1000) <= prec) and (RegSize>2) do
-  	begin
+  Prec := Operator div 1000;
+  While ((Reg[RegSize-1].Operator div 1000) <= prec) and (RegSize>2) do
+    begin
       Case Reg[RegSize-1].Operator of
-      	cmAnd : Reg[RegSize-1].Number :=
-					Reg[RegSize-1].Number and Reg[RegSize].Number;
+        cmAnd : Reg[RegSize-1].Number :=
+          Reg[RegSize-1].Number and Reg[RegSize].Number;
         cmOr : Reg[RegSize-1].Number :=
-        	Reg[RegSize-1].Number or Reg[RegSize].Number;
+          Reg[RegSize-1].Number or Reg[RegSize].Number;
         cmXor : Reg[RegSize-1].Number :=
-        	Reg[RegSize-1].Number xor Reg[RegSize].Number;
+          Reg[RegSize-1].Number xor Reg[RegSize].Number;
         cmAdd : Reg[RegSize-1].Number :=
-        	Reg[RegSize-1].Number + Reg[RegSize].Number;
+          Reg[RegSize-1].Number + Reg[RegSize].Number;
         cmSubtract : Reg[RegSize-1].Number :=
-        	Reg[RegSize-1].Number - Reg[RegSize].Number;
+          Reg[RegSize-1].Number - Reg[RegSize].Number;
         cmMultiply : Reg[RegSize-1].Number :=
-        	Reg[RegSize-1].Number * Reg[RegSize].Number;
+          Reg[RegSize-1].Number * Reg[RegSize].Number;
         cmDivide : Reg[RegSize-1].Number :=
-        	Reg[RegSize-1].Number div Reg[RegSize].Number;
+          Reg[RegSize-1].Number div Reg[RegSize].Number;
         cmModulus : Reg[RegSize-1].Number :=
-        	Reg[RegSize-1].Number mod Reg[RegSize].Number;
-			end;
+          Reg[RegSize-1].Number mod Reg[RegSize].Number;
+      end;
       Dec(RegSize);
     end;
   DisplayNum := Reg[RegSize].Number;
@@ -415,7 +415,7 @@ End;
 Procedure TCalc.Equals;
 
 Begin
-	Operate(cmOr);
+  Operate(cmOr);
   Dec(RegSize);
 End;
 
@@ -464,14 +464,14 @@ Begin
       end;
       If (Event.Command = cmAdd) or
           (Event.Command = cmSubtract) or
-				  (Event.Command = cmMultiply) or
-				  (Event.Command = cmDivide) or
-				  (Event.Command = cmModulus) or
-				  (Event.Command = cmAnd) or
-				  (Event.Command = cmOr) or
-					(Event.Command = cmXor) then
+          (Event.Command = cmMultiply) or
+          (Event.Command = cmDivide) or
+          (Event.Command = cmModulus) or
+          (Event.Command = cmAnd) or
+          (Event.Command = cmOr) or
+          (Event.Command = cmXor) then
         begin
-	        Operate(Event.Command);
+          Operate(Event.Command);
           ClearEvent(Event);
         end;
       If (Event.Command >= 100) and (Event.Command <= 115) then

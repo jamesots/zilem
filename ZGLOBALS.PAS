@@ -174,15 +174,15 @@ Begin
     hcInterrupts : Hint := 'Change interrupt mode/send and interrupt';
     hcMode : Hint := 'Change interrupt mode';
     hcInterrupt : Hint := 'Send an interrupt (Use both shift keys when '+
-			'running)';
+      'running)';
     hcNMI : Hint := 'Send a non-maskable interrupt (Use ctrl and both '+
-			'shifts when running)';
+      'shifts when running)';
     hcDebug : Hint := 'Watches, breakpoints and debugging windows';
     hcBreakpoints : Hint := 'Display current breakpoints';
     hcRegister : Hint := 'Open CPU Register window';
     hcWatch : Hint := 'Open watches window';
     hcUserScreen : Hint := 'Switch to full screen user output - press'+
-			' any key to return to here';
+      ' any key to return to here';
     hcAddWatch : Hint := 'Adds a new watch';
     hcAddBreakpoint : Hint := 'Adds a new breakpoint';
     hcOptions : Hint := 'Changes the ZiLEM defaults';
@@ -192,7 +192,7 @@ Begin
     hcOptionsOpen : Hint := 'Load options settings from a file';
     hcOptionsSave : Hint := 'Save the current options settings';
     hcOptionsSaveAs : Hint := 'Save the current options setting to '+
-			'another file';
+      'another file';
     hcWindow : Hint := 'Arrange windows';
     hcResize : Hint := 'Change the size or position of the active window';
     hcZoom : Hint := 'Enlarge or restore the size of the active window';
@@ -209,7 +209,7 @@ Begin
 
     hcOkButton : Hint := 'Accept the setting in this dialog box';
     hcCancelButton : Hint := 'Close the dialog box without making any'+
-			' changes';
+      ' changes';
     hcRevertButton : Hint := 'Return to the original directory';
     hcChangeDirButton : Hint := 'Change to the specified directory';
 
@@ -226,14 +226,14 @@ Begin
     hcCopyToInputLine : Hint := 'Enter address to finish copying at';
     hcPasteInputLine : Hint := 'Enter address to paste to';
     hcFindInputLine : Hint := 'Enter string to search for in single'+
-			' quotes';
+      ' quotes';
     hcReplaceInputLine : Hint := 'Enter string to replace with which'+
-			' must be the same length';
+      ' must be the same length';
 
     hcFileList : Hint := 'Type for incremental search: lower for files,'+
-			' upper for directories';
+      ' upper for directories';
     hcDirList : Hint := 'Use cursor keys to navigate through directory'+
-			' tree';
+      ' tree';
 
     hcDefaultBaseHexRadio : Hint := 'Enter addresses and Z80 code in'+
       ' hexadecimal';
@@ -241,15 +241,15 @@ Begin
       ' decimal';
 
     hcPrefDisplayCheck : Hint := 'Display characters in the range'+
-			' #00-#1F in the memory window';
+      ' #00-#1F in the memory window';
     hcPrefPrintCheck : Hint := 'Print characters in the range #80-#FF';
     hcPrefUpperCheck : Hint := 'Display Z80 instructions in upper case';
     hcPrefFollowCheck : Hint := 'Display the Z80 instruction currently'+
-			' being executed';
+      ' being executed';
 
     hcScreen24Radio : Hint := 'Use a display of 25 lines by 80 columns';
     hcScreen4350Radio : Hint := 'Display 43 lines by 80 columns (EGA) or'+
-			' 50 lines by 80 columns (VGA)';
+      ' 50 lines by 80 columns (VGA)';
 
     hcCodeInputLine : Hint := 'Enter a Z80 mnemonic';
     hcEnterButton : Hint := 'Updates the Z80 memory permanently';
@@ -259,7 +259,7 @@ Begin
     hcRedrawCode : Hint := 'Redraws the Z80 Code and CPU windows';
 
     hcInterruptInput : Hint := 'Enter a single byte opcode (Mode 0) or'+
-			' an interrupt offset (Mode 2)';
+      ' an interrupt offset (Mode 2)';
 
     hcInterruptMode0Radio : Hint := 'Mode 0 interrupts';
     hcInterruptMode1Radio : Hint := 'Mode 1 interrupts';
